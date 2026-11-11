@@ -2,6 +2,7 @@ import { EXCLUDE_IDS, EXCLUDE_PRESETS, isExcluded, type ExcludeId } from "./shar
 import { assignHues, hueOf, type Hue } from "./shared/hues";
 import { emptyLibrary, isShelved, parseLibrary, shelfItems, SHELVES, toggleShelf, type Library, type Shelf } from "./shared/library";
 import { orderFeed } from "./shared/order";
+import { blueskyApiUrl, fromBluesky, fromMastodon, mastodonApiUrl, type PostView } from "./shared/post-view";
 import { FORMAT_OF, type Feed, type FeedItem, type Format, type SourceKind } from "./shared/types";
 
 type View = "feed" | Shelf;
@@ -34,6 +35,11 @@ const tabs = controls.querySelector<HTMLElement>(".tabs")!;
 const chips = controls.querySelector<HTMLElement>(".chips")!;
 const people = controls.querySelector<HTMLElement>(".people")!;
 const toggle = document.querySelector<HTMLButtonElement>(".theme-toggle")!;
+const viewer = document.querySelector<HTMLDialogElement>(".viewer")!;
+const NETWORK: Partial<Record<SourceKind, { name: string; load: (item: FeedItem) => Promise<PostView> }>> = {
+  bluesky: { name: "Bluesky", load: (item) => loadPost(blueskyApiUrl(item.id), fromBluesky) },
+  mastodon: { name: "Mastodon", load: (item) => loadPost(mastodonApiUrl(item.url), fromMastodon) },
+};
 const shelfLinks = [...document.querySelectorAll<HTMLButtonElement>(".shelf-link")];
 const SHELF_COPY: Record<Shelf, { title: string; empty: string }> = {
   favourites: { title: "Favourites", empty: "Tap the heart on anything you love and it will wait for you here." },
@@ -118,7 +124,10 @@ async function start(): Promise<void> {
     return;
   }
   hues = assignHues(feed.tags);
-  addEventListener("popstate", render);
+  addEventListener("popstate", () => {
+    if (viewer.open) viewer.close();
+    else render();
+  });
   render();
   observer.observe(sentinel);
 }
@@ -365,7 +374,7 @@ function renderCard(item: FeedItem): HTMLElement {
   return card;
 }
 
-function actions(item: FeedItem): HTMLElement {
+function actions(item: FeedItem, after?: (shelf: Shelf) => void): HTMLElement {
   const done = DONE_LABEL[FORMAT_OF[item.kind]];
   const button = (shelf: Shelf, iconId: string, on: string, off: string) => {
     const active = isShelved(library, shelf, item.id);
@@ -373,7 +382,10 @@ function actions(item: FeedItem): HTMLElement {
       icon(iconId, shelf === "favourites" && active),
     ]);
     el.setAttribute("aria-pressed", String(active));
-    el.addEventListener("click", () => shelve(item, shelf));
+    el.addEventListener("click", () => {
+      shelve(item, shelf);
+      after?.(shelf);
+    });
     return el;
   };
   return h("div", { className: "actions" }, [
@@ -486,11 +498,18 @@ function renderPost(item: FeedItem): HTMLElement {
     : undefined;
   picture?.addEventListener("error", () => picture.remove(), { once: true });
 
+  const link = h("a", { href: item.url, target: "_blank", rel: "noopener", className: "stretch", ariaLabel: `${item.author}: ${text}` }, [text]);
+  if (NETWORK[item.kind]) {
+    link.addEventListener("click", (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      openViewer(item);
+    });
+  }
+
   return h("article", { className: "card post" }, [
     byline(item, [h("span", { className: "monogram", ariaHidden: "true" }, [initial(item.author)])]),
-    h("p", { className: "post-text" }, [
-      h("a", { href: item.url, target: "_blank", rel: "noopener", className: "stretch", ariaLabel: `${item.author}: ${text}` }, [text]),
-    ]),
+    h("p", { className: "post-text" }, [link]),
     ...(picture ? [picture] : []),
     h("footer", { className: "foot" }, [
       h("div", {}, tagList(item)),
@@ -498,6 +517,129 @@ function renderPost(item: FeedItem): HTMLElement {
       h("span", { className: "go", ariaHidden: "true" }, [icon("i-arrow")]),
     ]),
   ]);
+}
+
+async function loadPost(api: string | undefined, normalize: (json: unknown) => PostView): Promise<PostView> {
+  if (!api) throw new Error("no API URL for this post");
+  const response = await fetch(api, { headers: { Accept: "application/json" } });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return normalize(await response.json());
+}
+
+// The viewer shows one post in full and nothing else: no replies, no profile, no "more like this".
+function openViewer(item: FeedItem): void {
+  const network = NETWORK[item.kind]!;
+  const body = h("div", { className: "viewer-body" }, [h("p", { className: "viewer-text" }, [item.summary || item.title])]);
+  const media = h("div", { className: "viewer-media loading", ariaBusy: "true" });
+  const close = h("button", { type: "button", className: "viewer-close", ariaLabel: "Close" }, [icon("i-x")]);
+  close.addEventListener("click", closeViewer);
+  const head = h("header", { className: "viewer-head" }, [
+    h("span", { className: "monogram", ariaHidden: "true" }, [initial(item.author)]),
+    h("div", { className: "who" }, [h("strong", {}, [item.author]), h("span", {}, [network.name])]),
+    close,
+  ]);
+  const foot = h("footer", { className: "viewer-foot" });
+  const renderFoot = () =>
+    foot.replaceChildren(
+      actions(item, (shelf) => {
+        if (shelf === "archive" && isShelved(library, "archive", item.id)) closeViewer();
+        else renderFoot();
+      }),
+      h("a", { className: "viewer-out", href: item.url, target: "_blank", rel: "noopener" }, [`Open on ${network.name}`, icon("i-arrow")]),
+    );
+  renderFoot();
+
+  const sheet = h("article", { className: "viewer-sheet" }, [
+    head,
+    h("time", { className: "viewer-time", dateTime: item.publishedAt }, [new Date(item.publishedAt).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })]),
+    body,
+    media,
+    foot,
+  ]);
+  sheet.dataset.hue = hueFor(item);
+  viewer.replaceChildren(sheet);
+  history.pushState({ viewer: true }, "", location.href);
+  viewer.showModal();
+  close.focus({ focusVisible: false } as FocusOptions);
+
+  network
+    .load(item)
+    .then((post) => {
+      if (!sheet.isConnected) return;
+      if (post.author.avatar) {
+        const avatar = h("img", { className: "avatar", src: post.author.avatar, alt: "", referrerPolicy: "no-referrer" });
+        avatar.addEventListener("error", () => avatar.remove(), { once: true });
+        head.querySelector(".monogram")!.replaceWith(avatar);
+      }
+      head.querySelector(".who span")!.textContent = `${post.author.handle} on ${network.name}`;
+      body.replaceChildren(
+        h(
+          "p",
+          { className: "viewer-text" },
+          post.body.map((segment) =>
+            segment.href ? h("a", { href: segment.href, target: "_blank", rel: "noopener" }, [segment.text]) : document.createTextNode(segment.text),
+          ),
+        ),
+      );
+      media.replaceChildren(...postMedia(post, item.url, network.name));
+      media.classList.remove("loading");
+      media.removeAttribute("aria-busy");
+    })
+    .catch(() => {
+      if (!sheet.isConnected) return;
+      media.classList.remove("loading");
+      media.removeAttribute("aria-busy");
+      media.replaceChildren(h("p", { className: "viewer-note" }, [`Couldn't load the full post from ${network.name}. Here's what the feed had.`]));
+    });
+}
+
+function postMedia(post: PostView, postUrl: string, network: string): HTMLElement[] {
+  const parts: HTMLElement[] = [];
+  if (post.images.length > 0) {
+    parts.push(
+      h(
+        "div",
+        { className: `viewer-images count-${Math.min(post.images.length, 4)}` },
+        post.images.map((image) => {
+          const img = h("img", { src: image.src, alt: image.alt, loading: "lazy", decoding: "async", referrerPolicy: "no-referrer" });
+          if (post.images.length === 1 && image.ratio) img.style.aspectRatio = String(image.ratio);
+          return img;
+        }),
+      ),
+    );
+  }
+  if (post.video) {
+    parts.push(
+      h("a", { className: "viewer-video", href: postUrl, target: "_blank", rel: "noopener" }, [
+        ...(post.video.poster ? [h("img", { src: post.video.poster, alt: "", referrerPolicy: "no-referrer" })] : []),
+        h("span", { className: "play", ariaHidden: "true" }, [icon("i-play", true)]),
+        h("span", { className: "viewer-video-note" }, [`Video plays on ${network}`]),
+      ]),
+    );
+  }
+  if (post.link) {
+    const { url, title, description, image } = post.link;
+    parts.push(
+      h("a", { className: "viewer-link", href: url, target: "_blank", rel: "noopener" }, [
+        ...(image ? [h("img", { src: image, alt: "", loading: "lazy", referrerPolicy: "no-referrer" })] : []),
+        h("span", { className: "viewer-link-text" }, [
+          h("strong", {}, [title]),
+          ...(description ? [h("span", {}, [description])] : []),
+          h("small", {}, [new URL(url).hostname.replace(/^www\./, "")]),
+        ]),
+      ]),
+    );
+  }
+  if (post.quote) {
+    parts.push(h("blockquote", { className: "viewer-quote" }, [h("strong", {}, [post.quote.author]), h("p", {}, [post.quote.text])]));
+  }
+  return parts;
+}
+
+function closeViewer(): void {
+  if (!viewer.open) return;
+  if (history.state?.viewer) history.back();
+  else viewer.close();
 }
 
 function play(thumb: HTMLElement, item: FeedItem): void {
