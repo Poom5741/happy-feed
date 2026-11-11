@@ -69,7 +69,14 @@
     <nav class="controls" aria-label="Filters" hidden>
       <div class="tabs" role="group" aria-label="Show"></div>
       <div class="chips" role="group" aria-label="Tags and sources"></div>
-      <div class="chips people" role="group" aria-label="People"></div>
+      <section class="people-section" aria-labelledby="people-heading">
+        <header class="people-head">
+          <h2 id="people-heading">People <span class="count"></span></h2>
+          <input class="people-find" type="search" placeholder="Find a person" aria-label="Find a person" autocomplete="off" spellcheck="false" />
+        </header>
+        <div class="chips people" role="group" aria-labelledby="people-heading"></div>
+        <p class="people-none" hidden>No one by that name.</p>
+      </section>
     </nav>
     </aside>
     <main class="column">
@@ -111,6 +118,9 @@
         <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol>
         <symbol id="i-archive" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1" /><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4" /></symbol>
         <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" /></symbol>
+        <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" /></symbol>
+        <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7ZM14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8" /></symbol>
+        <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
         <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
       </defs>
     </svg>

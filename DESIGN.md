@@ -257,7 +257,7 @@ Each hue is a triple. The **wash** is the tile and chip-selected background. The
 - **Headline, read** (Literata 650, 1.3rem, 1.28, pretty wrap): article titles.
 - **Body, reading** (Literata 400, 1rem, 1.55, max 62ch, clamped to 4 lines): summaries. Moment copy also uses Literata, at 34ch.
 - **Body** (Bricolage 400, 16px, 1.5): the base UI text.
-- **Labels** (Bricolage): tabs 650 at 0.95rem (1rem in the rail), chips 600 at 0.9rem, bylines 0.875rem with the author in 700, tags 650 at 0.78rem, format pills 700 at 0.75rem. Counts and timestamps use tabular numbers.
+- **Labels** (Bricolage): tabs 650 at 0.95rem, chips 600 at 0.9rem, bylines 0.875rem with the author in 700, tags 650 at 0.78rem, format pills 700 at 0.75rem. Counts and timestamps use tabular numbers.
 
 ### Named Rules
 **The Two Voices Rule.** The title face signals the format. A watch title is set in Bricolage and a read title in Literata. Never set a read title in the display face, and never set UI chrome in Literata.
@@ -286,8 +286,8 @@ The form language is chunky and rounded. Every control is a full pill: tabs, chi
 ### Format Tabs
 - **Character:** a single pill track that answers "watch or read?".
 - **Shape:** a pill group on the surface with 4px inner padding. Each tab is a 40px pill with an icon, a label and a tabular count.
-- **States:** idle tabs are muted, turn to text color on hover, and fill with Electric Violet when selected (aria-pressed). A tab with no matches is disabled at 45% opacity.
-- **Rail:** stacks vertically inside a 24px-radius card. Tabs are 46px tall, left-aligned, with the count pushed to the end.
+- **States:** idle tabs are muted and take a 7% text tint on hover; the selected tab fills with Electric Violet (aria-pressed). A tab with no matches is disabled in a solid muted tint that still clears 3:1.
+- **Rail:** one row of 34px tabs. Only the selected tab shows its label and count; the rest are icons (see Rail tabs).
 
 ### Chips
 - **Style:** a surface pill with a 1.5px line border. Tag chips lead with a 10px dot in the hue's solid. Source chips lead with a muted 16px drawn icon.
@@ -307,10 +307,12 @@ The form language is chunky and rounded. Every control is a full pill: tabs, chi
 - **Card actions:** a heart (favourite) and a check (mark read or watched) in each card's footer, as 36px circles on a 12% ink tint. A pressed heart fills berry, a pressed check fills mint. Video cards carry no format pill; the thumbnail already says "video".
 - **Leaving a list:** a card that leaves the current list fades and shrinks out (220ms), then the cards after it glide into the gap (450ms, out-expo). There is no undo bar; the Archive is the undo.
 - **List links:** Favourites and Archive sit in the masthead as 44px circles with an accent count badge on phones, and as two labeled pills side by side in the desktop rail, with the count badge floating on each pill's corner.
-- **Rail tabs:** on desktop the All, Posts, Watch and Read tabs are a single row of four icon buttons; the label and count live in the tooltip and accessible name ("Watch, 620 posts"). Phones keep labeled tabs with counts.
+- **Rail tabs:** on desktop the All, Posts, Watch and Read tabs share one row. The selected tab grows to show its label and count; the others are icon buttons whose label and count live in the tooltip and accessible name ("Watch, 620 posts"). Idle tabs tint on hover; an empty tab is a solid muted tint (at least 3:1), not faded. Phones keep labeled tabs with counts.
+- **People list:** on desktop, a "People · N" heading with a "Find a person" box above a two-column grid of 32px rows (22px monogram, name truncated with the full name in the tooltip). Typing filters as you go, Enter picks the first unselected match, Esc clears the search before it clears filters. Selected people always sort first. Phones keep one scrolling chip row.
+- **Sources:** folded behind a "Sources" toggle chip after the tags, because the format tabs already answer most of that question. It stays open, and cannot be folded, while a source filter is on, and shows how many are on. Source icons never reuse a format icon: YouTube a screen, Blogs a page, Substack an envelope, Bluesky and Mastodon an @.
 - **Clear chip:** appears first in the chip row only while a filter is on, as a filled accent pill with an × and the number of active filters. On phones it is sticky at the row's left edge, masked by the ground, so it stays reachable however far the row scrolls. Esc does the same. It clears tags, sources, people and the format tab, but keeps the current list and No AI.
 - **Hide chip:** a neutral chip with an eye-off icon that leads the chip row. It is labeled "No <topic>" and fills with the text color when on, so it reads as a setting rather than a tag.
-- **Jewel variant:** with no image, the tile deepens to the jewel mix. The monogram and format pill invert to on-jewel, and tags and the go arrow sit on a 14% on-jewel tint.
+- **Jewel variant:** with no image, the tile deepens to the jewel mix. The monogram and format pill invert to on-jewel, tags are outlined (1.5px, 45% on-jewel) rather than tinted, and the go arrow sits on a 14% on-jewel tint. The byline time uses full on-jewel ink.
 
 ### Byline, Format Pill and Tags
 - The byline shows the author in bold, then a format pill (the hue's solid with Ink on Solid text and a filled play or book glyph), then the relative time pushed to the end.

@@ -383,8 +383,13 @@ button {
   color: var(--text);
 }
 
+.tab:not([aria-pressed="true"]):not(:disabled):hover {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+/* A solid tint rather than opacity, so an empty tab still clears 3:1 against the track. */
 .tab:disabled {
-  opacity: 0.45;
+  color: color-mix(in srgb, var(--muted) 72%, var(--surface));
   cursor: default;
 }
 
@@ -509,6 +514,51 @@ button {
   height: 26px;
   border-radius: 999px;
   font-size: 0.78rem;
+}
+
+.chip[hidden] {
+  display: none;
+}
+
+.chip-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.more-chip {
+  color: var(--muted);
+}
+
+.more-chip .icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.more-chip[aria-expanded="true"] .icon {
+  transform: rotate(180deg);
+}
+
+.more-chip .count {
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--ground);
+  font-size: 0.75rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.more-chip:disabled {
+  cursor: default;
+}
+
+.people-head,
+.people-none {
+  display: none;
 }
 
 .chip-rule {
@@ -741,8 +791,10 @@ button {
   color: var(--jewel);
 }
 
+/* Outlined rather than tinted: a darker tint under dark ink cost the tag its contrast on night jewels. */
 .read.jewel .tags li {
-  background: color-mix(in srgb, var(--on-jewel) 14%, transparent);
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--on-jewel) 45%, transparent);
   color: var(--on-jewel);
 }
 
@@ -758,6 +810,10 @@ button {
 
 .read .byline time {
   color: color-mix(in srgb, var(--ink) 80%, var(--wash));
+}
+
+.read.jewel .byline time {
+  color: var(--on-jewel);
 }
 
 .monogram {
@@ -1615,6 +1671,112 @@ html:has(.viewer[open]) {
 @media (min-width: 1440px) {
   .list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Desktop rail: expanded tab label, people as a findable two-column list. */
+@media (min-width: 1024px) {
+  .tabs {
+    display: flex;
+  }
+
+  .tab {
+    flex: 1 1 0;
+  }
+
+  .tab[aria-pressed="true"] {
+    flex: 2.6 1 0;
+    gap: 6px;
+    padding: 0 10px;
+  }
+
+  .tab[aria-pressed="true"] .tab-label,
+  .tab[aria-pressed="true"] .count {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .clear-chip {
+    position: static;
+    box-shadow: none;
+  }
+
+  .people-section {
+    margin-top: 20px;
+  }
+
+  .people-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .people-head h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .people-head .count {
+    color: var(--muted);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .people-find {
+    width: 150px;
+    min-height: 32px;
+    padding: 0 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.875rem;
+  }
+
+  .people-find::placeholder {
+    color: var(--muted);
+  }
+
+  .people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin: 0;
+  }
+
+  .people .chip {
+    min-width: 0;
+    min-height: 32px;
+    gap: 6px;
+    padding: 0 10px 0 4px;
+    font-size: 0.85rem;
+  }
+
+  .people .monogram {
+    width: 22px;
+    height: 22px;
+    font-size: 0.7rem;
+  }
+
+  .people-none {
+    display: block;
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .people-none[hidden] {
+    display: none;
   }
 }
 

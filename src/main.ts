@@ -18,13 +18,13 @@ const FORMATS: Record<Format, { label: string; icon: string }> = {
 };
 const KINDS: Record<SourceKind, { label: string; icon: string }> = {
   youtube: { label: "YouTube", icon: "i-tv" },
-  rss: { label: "Blogs", icon: "i-book" },
+  rss: { label: "Blogs", icon: "i-file" },
   substack: { label: "Substack", icon: "i-mail" },
   website: { label: "Web", icon: "i-globe" },
-  bluesky: { label: "Bluesky", icon: "i-chat" },
-  mastodon: { label: "Mastodon", icon: "i-chat" },
-  twitter: { label: "X", icon: "i-chat" },
-  facebook: { label: "Facebook", icon: "i-chat" },
+  bluesky: { label: "Bluesky", icon: "i-at" },
+  mastodon: { label: "Mastodon", icon: "i-at" },
+  twitter: { label: "X", icon: "i-at" },
+  facebook: { label: "Facebook", icon: "i-at" },
 };
 
 const root = document.documentElement;
@@ -34,6 +34,11 @@ const controls = document.querySelector<HTMLElement>(".controls")!;
 const tabs = controls.querySelector<HTMLElement>(".tabs")!;
 const chips = controls.querySelector<HTMLElement>(".chips")!;
 const people = controls.querySelector<HTMLElement>(".people")!;
+const peopleCount = controls.querySelector<HTMLElement>(".people-head .count")!;
+const peopleFind = controls.querySelector<HTMLInputElement>(".people-find")!;
+const peopleNone = controls.querySelector<HTMLElement>(".people-none")!;
+// Sources repeat the Watch/Read/Posts tabs, so they stay folded unless opened or already filtering.
+let sourcesOpen = false;
 const toggle = document.querySelector<HTMLButtonElement>(".theme-toggle")!;
 const viewer = document.querySelector<HTMLDialogElement>(".viewer")!;
 const NETWORK: Partial<Record<SourceKind, { name: string; load: (item: FeedItem) => Promise<PostView> }>> = {
@@ -119,6 +124,19 @@ window.addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key !== "Escape" || viewer.open || !feed) return;
   const filters = readFilters();
   if (activeFilterCount(filters) > 0) clearFilters(filters);
+});
+
+peopleFind.addEventListener("input", applyPeopleFind);
+peopleFind.addEventListener("keydown", (event) => {
+  // Esc in the box clears the search first; a second Esc falls through to clearing filters.
+  if (event.key === "Escape" && peopleFind.value) {
+    event.stopPropagation();
+    peopleFind.value = "";
+    applyPeopleFind();
+  }
+  if (event.key === "Enter" && peopleFind.value.trim()) {
+    people.querySelector<HTMLButtonElement>('.chip:not([hidden]):not([aria-pressed="true"])')?.click();
+  }
 });
 
 void start();
@@ -341,7 +359,7 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
 
   const chip = (group: ChipGroup, value: string, lead: Node, label: string, hue?: Hue) => {
     const active = filters[group].has(value);
-    const el = h("button", { type: "button", className: "chip" }, [lead, label]);
+    const el = h("button", { type: "button", className: "chip", title: label }, [lead, h("span", { className: "chip-label" }, [label])]);
     if (hue) el.dataset.hue = hue;
     el.setAttribute("aria-pressed", String(active));
     el.addEventListener("click", () => {
@@ -375,23 +393,59 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
     }),
     h("span", { className: "chip-rule", ariaHidden: "true" }),
     ...feed.tags.map((tag) => chip("tags", tag, h("span", { className: "dot" }), tag, hues.get(tag))),
-    ...(feed.kinds.length > 1
-      ? [
-          h("span", { className: "chip-rule", ariaHidden: "true" }),
-          ...feed.kinds.map((kind) => chip("kind", kind, icon(KINDS[kind].icon), KINDS[kind].label)),
-        ]
-      : []),
+    ...(feed.kinds.length > 1 ? sourceChips(filters, chip) : []),
   );
 
   const authors = new Map<string, Hue>();
   for (const item of feed.items) if (!authors.has(item.author)) authors.set(item.author, hueFor(item));
-  people.replaceChildren(
-    ...[...authors]
-      .sort(([a], [b]) => a.localeCompare(b, undefined, { sensitivity: "base" }))
-      .map(([author, hue]) =>
-        chip("people", author, h("span", { className: "monogram", ariaHidden: "true" }, [initial(author)]), author, hue),
-      ),
+  // Selected people lead the list, so what is filtering the feed is never buried in the alphabet.
+  const ordered = [...authors].sort(
+    ([a], [b]) =>
+      Number(filters.people.has(b)) - Number(filters.people.has(a)) || a.localeCompare(b, undefined, { sensitivity: "base" }),
   );
+  peopleCount.textContent = String(authors.size);
+  people.replaceChildren(
+    ...ordered.map(([author, hue]) => {
+      const el = chip("people", author, h("span", { className: "monogram", ariaHidden: "true" }, [initial(author)]), author, hue);
+      el.dataset.name = author.toLowerCase();
+      return el;
+    }),
+  );
+  applyPeopleFind();
+}
+
+type ChipFactory = (group: ChipGroup, value: string, lead: Node, label: string, hue?: Hue) => HTMLButtonElement;
+
+function sourceChips(filters: Filters, chip: ChipFactory): Node[] {
+  const open = sourcesOpen || filters.kind.size > 0;
+  const toggle = h("button", { type: "button", className: "chip more-chip" }, [
+    "Sources",
+    ...(filters.kind.size > 0 ? [h("span", { className: "count" }, [String(filters.kind.size)])] : []),
+    icon("i-chevron"),
+  ]);
+  toggle.setAttribute("aria-expanded", String(open));
+  toggle.disabled = open && filters.kind.size > 0;
+  toggle.title = toggle.disabled ? "Clear the source filters to fold these away" : open ? "Hide sources" : "Show sources";
+  toggle.addEventListener("click", () => {
+    sourcesOpen = !open;
+    refreshControls();
+  });
+  return [
+    h("span", { className: "chip-rule", ariaHidden: "true" }),
+    toggle,
+    ...(open ? feed.kinds.map((kind) => chip("kind", kind, icon(KINDS[kind].icon), KINDS[kind].label)) : []),
+  ];
+}
+
+function applyPeopleFind(): void {
+  const query = peopleFind.value.trim().toLowerCase();
+  let shown = 0;
+  for (const el of people.querySelectorAll<HTMLButtonElement>(".chip")) {
+    const visible = !query || el.dataset.name!.includes(query) || el.getAttribute("aria-pressed") === "true";
+    el.hidden = !visible;
+    if (visible) shown++;
+  }
+  peopleNone.hidden = shown > 0;
 }
 
 function byline(item: FeedItem, lead: Node[] = []): HTMLElement {
