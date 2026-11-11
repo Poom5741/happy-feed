@@ -53,10 +53,10 @@ A source that fails (no bridge, timeout after 15s, bad feed) lands in `feed.json
 
 ## Deploy
 
-`.github/workflows/deploy.yml` fetches, builds, and publishes to GitHub Pages on every push to `main`, every 3 hours, and on demand. Set `RSS_BRIDGE` (and `RSS_BRIDGE_FACEBOOK`) as a repository secret or variable to turn on those sources.
+The site is an assets-only Cloudflare Worker named `happy-feed`, served at `feed.poom.dev`. `cloudflare.config.ts` sets the custom domain, and Cloudflare manages its DNS record.
 
-One-time setup:
+Deploy from your machine with `bun run deploy`. It fetches the feed, builds, and runs `cf deploy dist`. The `cf` CLI needs Node.js 22.18 or later and a login (`npx cf auth login`).
 
-1. In the repository settings, set Pages to deploy from GitHub Actions.
-2. Add a DNS record `CNAME feed → <user>.github.io`.
-3. `public/CNAME` already holds `feed.poom.dev`. Turn on "Enforce HTTPS" once the certificate is issued.
+`.github/workflows/deploy.yml` does the same on every push to `main`, every 3 hours, and on demand, so the feed stays fresh. Set `RSS_BRIDGE` (and `RSS_BRIDGE_FACEBOOK`) as a repository secret or variable to turn on those sources.
+
+One-time setup for the workflow: add a `CLOUDFLARE_API_TOKEN` repository secret. Create the token with the "Edit Cloudflare Workers" template, scoped to this account and the `poom.dev` zone.
