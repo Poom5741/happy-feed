@@ -293,6 +293,7 @@ The form language is chunky and rounded. Every control is a full pill: tabs, chi
 ### Read Card
 - **Character:** a tinted tile that works with no image at all.
 - A wash tile with 24px corners and 18px padding (22px/24px at 720px and up). The byline leads with a 32px monogram (the author's initial on the hue's solid). The Literata title sits beside an optional 76px (96px) inline thumbnail. The summary below is clamped to four lines. The footer has the tags and a 32px circular "go" arrow, which rotates 45 degrees on hover. The whole tile is the link, and focus outlines the whole tile.
+- **Hide chip:** a neutral chip with an eye-off icon that leads the chip row. It is labeled "No <topic>" and fills with the text color when on, so it reads as a setting rather than a tag.
 - **Jewel variant:** with no image, the tile deepens to the jewel mix. The monogram and format pill invert to on-jewel, and tags and the go arrow sit on a 14% on-jewel tint.
 
 ### Byline, Format Pill and Tags

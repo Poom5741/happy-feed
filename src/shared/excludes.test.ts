@@ -1,0 +1,20 @@
+import { expect, test } from "bun:test";
+import { isExcluded, type ExcludeId } from "./excludes";
+
+const ai = new Set<ExcludeId>(["ai"]);
+
+test("the AI preset hides posts that mention AI in the title or summary", () => {
+  expect(isExcluded({ title: "No AI. Build 'cat' in C" }, ai)).toBe(true);
+  expect(isExcluded({ title: "Dispatch 020", summary: "Early AI-generated sketches" }, ai)).toBe(true);
+  expect(isExcluded({ title: "On artificial intelligence and craft" }, ai)).toBe(true);
+  expect(isExcluded({ title: "Notes on Super  Intelligence" }, ai)).toBe(true);
+  expect(isExcluded({ title: "Superintelligence soon?" }, ai)).toBe(true);
+});
+
+test("the AI preset leaves words that merely contain the letters alone", () => {
+  expect(isExcluded({ title: "Thai street food", summary: "She said it was fair and plain" }, ai)).toBe(false);
+});
+
+test("nothing is hidden when no preset is active", () => {
+  expect(isExcluded({ title: "AI everywhere" }, new Set())).toBe(false);
+});

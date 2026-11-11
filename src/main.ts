@@ -1,3 +1,4 @@
+import { EXCLUDE_IDS, EXCLUDE_PRESETS, isExcluded, type ExcludeId } from "./shared/excludes";
 import { assignHues, hueOf, type Hue } from "./shared/hues";
 import { orderFeed } from "./shared/order";
 import { FORMAT_OF, type Feed, type FeedItem, type Format, type SourceKind } from "./shared/types";
@@ -31,6 +32,8 @@ const systemDark = matchMedia("(prefers-color-scheme: dark)");
 
 let feed: Feed;
 let hues = new Map<string, Hue>();
+let hidden = loadHidden();
+let hiddenCount = 0;
 let rows: Row[] = [];
 let rendered = 0;
 
@@ -99,6 +102,24 @@ async function start(): Promise<void> {
   observer.observe(sentinel);
 }
 
+function loadHidden(): Set<ExcludeId> {
+  try {
+    const saved: unknown = JSON.parse(localStorage.getItem("hide") ?? "[]");
+    return new Set(EXCLUDE_IDS.filter((id) => Array.isArray(saved) && saved.includes(id)));
+  } catch {
+    return new Set();
+  }
+}
+
+function toggleHidden(id: ExcludeId): void {
+  if (hidden.has(id)) hidden.delete(id);
+  else hidden.add(id);
+  try {
+    localStorage.setItem("hide", JSON.stringify([...hidden]));
+  } catch {}
+  render();
+}
+
 function hueFor(item: FeedItem): Hue {
   const tag = item.tags[0];
   return (tag && hues.get(tag)) || hueOf(item.author);
@@ -130,7 +151,9 @@ function matchesChips(item: FeedItem, filters: Filters): boolean {
 
 function render(): void {
   const filters = readFilters();
-  const chipMatches = feed.items.filter((item) => matchesChips(item, filters));
+  const kept = feed.items.filter((item) => !isExcluded(item, hidden));
+  hiddenCount = feed.items.length - kept.length;
+  const chipMatches = kept.filter((item) => matchesChips(item, filters));
   renderControls(filters, chipMatches);
 
   const visible = chipMatches.filter((item) => !filters.show || FORMAT_OF[item.kind] === filters.show);
@@ -197,6 +220,17 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
   };
 
   chips.replaceChildren(
+    ...EXCLUDE_IDS.map((id) => {
+      const active = hidden.has(id);
+      const el = h("button", { type: "button", className: "chip hide-chip", title: `Hide posts about ${EXCLUDE_PRESETS[id].label}` }, [
+        icon("i-eye-off"),
+        `No ${EXCLUDE_PRESETS[id].label}`,
+      ]);
+      el.setAttribute("aria-pressed", String(active));
+      el.addEventListener("click", () => toggleHidden(id));
+      return el;
+    }),
+    h("span", { className: "chip-rule", ariaHidden: "true" }),
     ...feed.tags.map((tag) => chip("tags", tag, h("span", { className: "dot" }), tag, hues.get(tag))),
     ...(feed.kinds.length > 1
       ? [
@@ -305,6 +339,7 @@ function renderEnd(): HTMLElement {
     body: "You've seen it all. Go stretch, sip some water, or make something lovely.",
     fine: [
       `Updated ${ago(feed.generatedAt)}.`,
+      ...(hiddenCount > 0 ? [`${hiddenCount} post${hiddenCount === 1 ? "" : "s"} hidden by your filters.`] : []),
       ...(skipped > 0 ? [`${skipped} source${skipped === 1 ? "" : "s"} couldn't be reached.`] : []),
     ].join(" "),
   });

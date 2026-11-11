@@ -371,6 +371,12 @@ button {
   color: inherit;
 }
 
+.hide-chip[aria-pressed="true"] {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--ground);
+}
+
 .chip-rule {
   flex: none;
   width: 1.5px;
