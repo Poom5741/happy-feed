@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="A calm feed of creators Poom chose." />
+    <title>Happy Feed</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="bar-inner">
+        <h1 class="brand">Happy Feed</h1>
+        <nav class="filters" aria-label="Filters" hidden>
+          <div class="chips" role="group" aria-label="Tags" data-group="tags"></div>
+          <div class="chips" role="group" aria-label="Sources" data-group="kind"></div>
+        </nav>
+      </div>
+    </header>
+    <main class="column">
+      <div class="list" aria-live="polite">
+        <div class="card skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="card skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="card skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <div class="sentinel" aria-hidden="true"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
