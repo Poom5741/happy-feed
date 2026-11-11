@@ -97,6 +97,20 @@ for (const link of shelfLinks) {
   });
 }
 
+// Esc and a tap on the backdrop close the viewer through history, so Back never needs an extra press.
+viewer.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeViewer();
+});
+viewer.addEventListener("click", (event) => {
+  if (event.target === viewer) closeViewer();
+});
+window.addEventListener("keydown", (event: KeyboardEvent) => {
+  if (event.key !== "Escape" || viewer.open || !feed) return;
+  const filters = readFilters();
+  if (activeFilterCount(filters) > 0) clearFilters(filters);
+});
+
 void start();
 
 function syncTheme(): void {
@@ -192,6 +206,15 @@ function writeFilters(filters: Filters): void {
   history.pushState(null, "", query ? `?${query}` : location.pathname);
   render();
   scrollTo({ top: 0 });
+}
+
+function activeFilterCount(filters: Filters): number {
+  return filters.tags.size + filters.kind.size + filters.people.size + (filters.show ? 1 : 0);
+}
+
+// Clears what narrows the list; the current list (feed, favourites, archive) and No AI stay as they are.
+function clearFilters(filters: Filters): void {
+  writeFilters({ view: filters.view, show: "", tags: new Set(), kind: new Set(), people: new Set() });
 }
 
 function matchesChips(item: FeedItem, filters: Filters): boolean {
@@ -318,7 +341,16 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
     return el;
   };
 
+  const active = activeFilterCount(filters);
+  const clear = h("button", { type: "button", className: "chip clear-chip", title: "Clear filters (Esc)", ariaLabel: `Clear ${active} filter${active === 1 ? "" : "s"}` }, [
+    icon("i-x"),
+    "Clear",
+    h("span", { className: "count" }, [String(active)]),
+  ]);
+  clear.addEventListener("click", () => clearFilters(filters));
+
   chips.replaceChildren(
+    ...(active > 0 ? [clear] : []),
     ...EXCLUDE_IDS.map((id) => {
       const active = hidden.has(id);
       const el = h("button", { type: "button", className: "chip hide-chip", title: `Hide posts about ${EXCLUDE_PRESETS[id].label}` }, [

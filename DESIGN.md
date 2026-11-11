@@ -307,6 +307,7 @@ The form language is chunky and rounded. Every control is a full pill: tabs, chi
 - **Card actions:** a heart (favourite) and a check (mark read or watched) in each card's footer, as 36px circles on a 12% ink tint. A pressed heart fills berry, a pressed check fills mint. Video cards carry no format pill; the thumbnail already says "video".
 - **Leaving a list:** a card that leaves the current list fades and shrinks out (220ms), then the cards after it glide into the gap (450ms, out-expo). There is no undo bar; the Archive is the undo.
 - **List links:** Favourites and Archive sit in the masthead as 44px circles with an accent count badge on phones, and as labeled pills in the desktop rail.
+- **Clear chip:** appears first in the chip row only while a filter is on, as a filled accent pill with an × and the number of active filters. On phones it is sticky at the row's left edge, masked by the ground, so it stays reachable however far the row scrolls. Esc does the same. It clears tags, sources, people and the format tab, but keeps the current list and No AI.
 - **Hide chip:** a neutral chip with an eye-off icon that leads the chip row. It is labeled "No <topic>" and fills with the text color when on, so it reads as a setting rather than a tag.
 - **Jewel variant:** with no image, the tile deepens to the jewel mix. The monogram and format pill invert to on-jewel, and tags and the go arrow sit on a 14% on-jewel tint.
 

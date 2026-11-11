@@ -450,6 +450,46 @@ button {
   color: inherit;
 }
 
+/* Pinned to the start of the scrolling chip row, so it stays reachable however far the row scrolls. */
+.clear-chip {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: -24px 0 0 var(--ground), 10px 0 12px -6px var(--ground);
+  animation: chip-in 0.3s var(--ease-out);
+}
+
+.clear-chip .icon {
+  width: 15px;
+  height: 15px;
+  color: inherit;
+}
+
+.clear-chip .count {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-ink) 22%, transparent);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.clear-chip:hover {
+  border-color: var(--accent);
+  filter: brightness(1.08);
+}
+
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
 .hide-chip[aria-pressed="true"] {
   background: var(--text);
   border-color: var(--text);
