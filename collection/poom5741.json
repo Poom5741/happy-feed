@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "name": "Improve Poom",
+    "description": "Content ที่ทำให้ Poom เก่งขึ้นจริง ๆ — founder · engineer · trader · Thai tech",
+    "mute": ["politics", "election", "trump", "AI psychosis", "crypto scam", "memecoin", "get rich quick"]
+  },
+  "entries": [
+    { "name": "Y Combinator", "youtube": "https://www.youtube.com/@ycombinator", "tags": ["Startups"] },
+    { "name": "Lenny's Newsletter", "rss": "https://www.lennysnewsletter.com/feed", "tags": ["Startups", "Product"] },
+    { "name": "Paul Graham", "rss": "http://www.aaronsw.com/2002/feeds/pgessays.rss", "tags": ["Startups"] },
+    { "name": "My First Million", "youtube": "https://www.youtube.com/@MyFirstMillionPod", "tags": ["Startups", "Business"] },
+    { "name": "Patrick Boyle", "youtube": "https://www.youtube.com/@PaddyBoyle", "tags": ["Finance"] },
+
+    { "name": "Chat With Traders", "youtube": "https://www.youtube.com/channel/UCdnzT5Tl6pAkATOiDsPhqcg", "tags": ["Trading"] },
+    { "name": "SMB Capital", "youtube": "https://www.youtube.com/@smbcapital", "tags": ["Trading"] },
+    { "name": "QuantPy", "youtube": "https://www.youtube.com/@QuantPy", "tags": ["Quant"] },
+    { "name": "Axia Futures", "youtube": "https://www.youtube.com/@AxiaFutures", "tags": ["Trading"] },
+
+    { "name": "Jon Gjengset", "youtube": "https://www.youtube.com/@jonhoo", "tags": ["Coding"] },
+    { "name": "Dreams of Code", "youtube": "https://www.youtube.com/@dreamsofcode", "tags": ["Coding"] },
+    { "name": "CodeAesthetic", "youtube": "https://www.youtube.com/@CodeAesthetic", "tags": ["Coding"] },
+    { "name": "Continuous Delivery", "youtube": "https://www.youtube.com/channel/UCCfqyGl3nq_V0bo64CjZh8g", "tags": ["Engineering"] },
+
+    { "name": "Fireship", "youtube": "https://www.youtube.com/@Fireship", "tags": ["Coding", "Shorts"] },
+    { "name": "ThePrimeagen", "youtube": "https://www.youtube.com/@ThePrimeagen", "tags": ["Coding", "Shorts"] },
+    { "name": "Theo", "youtube": "https://www.youtube.com/@t3dotgg", "tags": ["Coding", "Shorts"] },
+
+    { "name": "BorntoDev", "youtube": "https://www.youtube.com/@borntodev", "tags": ["Thai Tech"] },
+    { "name": "The Standard", "youtube": "https://www.youtube.com/channel/UCk1v3FzlMu3r34LYgoHpH2w", "tags": ["Thai"] },
+
+    { "name": "Huberman Lab", "youtube": "https://www.youtube.com/@hubermanlab", "tags": ["Health"] }
+  ]
+}
