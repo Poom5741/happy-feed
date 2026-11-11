@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: transparent;
+      }
+
+      .icon {
+        position: relative;
+        width: 512px;
+        height: 512px;
+        overflow: hidden;
+        background: #6a4cf5;
+      }
+
+      /* "any" icons are a rounded tile; maskable and Apple icons are full-bleed squares the OS shapes. */
+      .icon.rounded {
+        border-radius: 112px;
+      }
+
+      /* A soft, lighter disc lifts the sprout off the violet without a gradient. */
+      .halo {
+        position: absolute;
+        left: 50%;
+        top: 52%;
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+        background: #8a6dff;
+        transform: translate(-50%, -50%);
+      }
+
+      .sprout {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 74%;
+        height: 74%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Maskable icons must keep the subject inside the central 80% safe zone. */
+      .icon.maskable .halo {
+        width: 58%;
+        height: 58%;
+      }
+
+      .icon.maskable .sprout {
+        width: 60%;
+        height: 60%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="icon">
+      <div class="halo"></div>
+      <svg class="sprout" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M31 17C26 6 15 5 10 8c2 8 11 14 21 9Z" fill="#2fbf7f" />
+        <path d="M33 17c4-11 15-13 21-10-2 9-11 15-21 10Z" fill="#1f9e66" />
+        <circle cx="32" cy="38" r="21" fill="#ffc83d" />
+        <ellipse cx="24.5" cy="36" rx="2.6" ry="3.4" fill="#4a2f00" />
+        <ellipse cx="39.5" cy="36" rx="2.6" ry="3.4" fill="#4a2f00" />
+        <path d="M26 44q6 5.5 12 0" fill="none" stroke="#4a2f00" stroke-width="2.6" stroke-linecap="round" />
+        <circle cx="19" cy="43" r="3.2" fill="#ff9eb8" />
+        <circle cx="45" cy="43" r="3.2" fill="#ff9eb8" />
+      </svg>
+    </div>
+  </body>
+</html>

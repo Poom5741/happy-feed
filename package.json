@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "og": "node scripts/og/render.mjs",
     "deploy": "bun run fetch && vite build && cf deploy dist",
-    "test": "bun test"
+    "test": "bun test",
+    "icons": "node scripts/icons/render.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.12.0"
