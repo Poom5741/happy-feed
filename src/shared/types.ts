@@ -1,6 +1,15 @@
-export type SourceKind = "youtube" | "rss" | "substack" | "website" | "twitter" | "facebook";
+export type SourceKind = "youtube" | "rss" | "substack" | "website" | "bluesky" | "mastodon" | "twitter" | "facebook";
 
-export const SOURCE_KINDS: readonly SourceKind[] = ["youtube", "rss", "substack", "website", "twitter", "facebook"];
+export const SOURCE_KINDS: readonly SourceKind[] = [
+  "youtube",
+  "rss",
+  "substack",
+  "website",
+  "bluesky",
+  "mastodon",
+  "twitter",
+  "facebook",
+];
 
 export type Format = "watch" | "read" | "post";
 
@@ -9,6 +18,8 @@ export const FORMAT_OF: Record<SourceKind, Format> = {
   rss: "read",
   substack: "read",
   website: "read",
+  bluesky: "post",
+  mastodon: "post",
   twitter: "post",
   facebook: "post",
 };

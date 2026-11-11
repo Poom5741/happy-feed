@@ -22,6 +22,8 @@ const registry = (rss: RawItem[]): ProviderRegistry => ({
   rss: async () => rss,
   youtube: noProvider,
   substack: noProvider,
+  bluesky: noProvider,
+  mastodon: noProvider,
   website: noProvider,
   twitter: noProvider,
   facebook: noProvider,

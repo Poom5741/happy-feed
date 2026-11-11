@@ -5,12 +5,12 @@
     "mute": ["politics", "election", "trump", "AI psychosis"]
   },
   "entries": [
-    { "name": "LaurieWired", "twitter": "https://x.com/lauriewired", "tags": ["Computer Science"] },
-    { "name": "Mitchell Hashimoto", "twitter": "https://x.com/mitchellh", "tags": ["Computer Science"] },
+    { "name": "LaurieWired", "bluesky": "https://bsky.app/profile/lauriewired.bsky.social", "tags": ["Computer Science"] },
+    { "name": "Mitchell Hashimoto", "mastodon": "https://hachyderm.io/@mitchellh", "tags": ["Computer Science"] },
     { "name": "Hayyoth", "youtube": "https://www.youtube.com/@hayyoth-org", "tags": ["Coding"] },
     { "name": "Patt Vira", "youtube": "https://www.youtube.com/@pattvira", "tags": ["Creative Coding"] },
     { "name": "Bisqwit", "youtube": "https://www.youtube.com/@Bisqwit", "tags": ["Coding"] },
-    { "name": "Coding Train", "youtube": "https://www.youtube.com/@TheCodingTrain", "twitter": "https://x.com/thecodingtrain", "tags": ["Creative Coding"] },
+    { "name": "Coding Train", "youtube": "https://www.youtube.com/@TheCodingTrain", "bluesky": "https://bsky.app/profile/thecodingtrain.com", "tags": ["Creative Coding"] },
     { "name": "Inigo Quilez", "youtube": "https://www.youtube.com/@InigoQuilez", "tags": ["Creative Coding"] },
     { "name": "Stack Diver", "description": "Sun's Blog", "rss": "https://stackdiver.com/feed.xml", "tags": ["HCI"] },
     { "name": "Ink and Switch", "rss": "https://www.inkandswitch.com/index.xml", "tags": ["HCI"] },

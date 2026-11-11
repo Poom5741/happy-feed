@@ -45,3 +45,18 @@ test("parses a YouTube Atom feed with video id, thumbnail and description", () =
 test("rejects a document that is not a feed", () => {
   expect(() => parseFeedXml("<html><body>hi</body></html>", "https://example.com")).toThrow(/not an RSS or Atom/);
 });
+
+test("parses a title-less Bluesky post, keeping its text as the summary", () => {
+  const xml = `<?xml version="1.0"?><rss version="2.0"><channel><title>@someone</title>
+    <item><link>https://bsky.app/profile/someone.bsky.social/post/3mzx</link>
+      <description>UX latency is the most frustrating lack of advancement. &#xA;&#xA;The Doherty Threshold was ~400 ms.</description>
+      <pubDate>10 Nov 2026 17:58 +0000</pubDate><guid isPermaLink="false">at://did:plc:abc/app.bsky.feed.post/3mzx</guid></item>
+  </channel></rss>`;
+  const [item] = parseFeedXml(xml, "https://bsky.app/profile/someone.bsky.social/rss");
+  expect(item).toMatchObject({
+    title: "",
+    url: "https://bsky.app/profile/someone.bsky.social/post/3mzx",
+    summary: "UX latency is the most frustrating lack of advancement. The Doherty Threshold was ~400 ms.",
+    publishedAt: "2026-11-10T17:58:00.000Z",
+  });
+});

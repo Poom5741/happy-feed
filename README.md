@@ -30,7 +30,7 @@ Every `collection/*.json` file is loaded. Unknown keys and bad URLs fail the bui
       "tags": ["Creative Coding"],      // filter chips
       "youtube": "https://www.youtube.com/@TheCodingTrain",
       "twitter": "https://x.com/thecodingtrain"
-      // also: "rss", "substack", "website", "facebook". An entry needs at least one.
+      // also: "rss", "substack", "website", "bluesky", "mastodon", "facebook". An entry needs at least one.
     }
   ]
 }
@@ -46,6 +46,8 @@ Each source keeps its newest 30 posts from the past 365 days.
 | `rss` | Reads RSS 2.0 or Atom. The image comes from `media:thumbnail`, an image enclosure, or the first `<img>` in the content. | |
 | `substack` | Reads the publication's `/feed`. Works for `*.substack.com` and custom domains. | Paywalled posts only show their preview. |
 | `website` | Finds `<link rel="alternate" type="application/rss+xml">` (or Atom) on the page and reads that feed. | Fails when the site advertises no feed. Use `rss` with the feed URL instead. |
+| `bluesky` | Reads a profile's public RSS at `https://bsky.app/profile/<handle>/rss`. | Posts have no titles; the card shows the post text. |
+| `mastodon` | Reads a profile's public RSS at `https://<server>/@<user>.rss`. | Only public posts. Long posts are cut at about 280 characters, linking to the full post. |
 | `twitter` | Reads `RSS_BRIDGE` with `{handle}` replaced, such as `https://rsshub.example.com/twitter/user/{handle}`. | No free public source exists, so without a bridge these entries are skipped. |
 | `facebook` | Same, through `RSS_BRIDGE_FACEBOOK`. | Same. |
 

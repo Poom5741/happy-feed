@@ -47,7 +47,7 @@ function toRawItem(node: Node, baseUrl: string): RawItem | undefined {
 
   return {
     id: text(node.guid ?? node.id) || url,
-    title: htmlToText(text(node.title ?? media["media:title"])) || "Untitled",
+    title: htmlToText(text(node.title ?? media["media:title"])),
     url,
     summary: summary || undefined,
     image: absolute(itemImage(node, media, html), url),
