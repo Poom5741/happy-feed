@@ -1552,13 +1552,13 @@ html:has(.viewer[open]) {
   /* Icons only in the rail: the label and count move to the tooltip and the accessible name. */
   .tab {
     position: relative;
-    min-height: 44px;
+    min-height: 34px;
     padding: 0;
   }
 
   .tab .icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 
   .tab .tab-label,
