@@ -102,8 +102,18 @@ viewer.addEventListener("cancel", (event) => {
   event.preventDefault();
   closeViewer();
 });
-viewer.addEventListener("click", (event) => {
-  if (event.target === viewer) closeViewer();
+// Pointer events rather than click: some browsers (notably Safari on iOS) do not reliably synthesize a
+// click on a dialog's backdrop. A press must start and end on the backdrop, so a drag out of the sheet
+// does not close it.
+let pressOnBackdrop = false;
+// Set when the viewer closes itself and steps history back, so that step does not re-render the feed.
+let skipNextPop = false;
+viewer.addEventListener("pointerdown", (event) => {
+  pressOnBackdrop = event.target === viewer;
+});
+viewer.addEventListener("pointerup", (event) => {
+  if (pressOnBackdrop && event.target === viewer) closeViewer();
+  pressOnBackdrop = false;
 });
 window.addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key !== "Escape" || viewer.open || !feed) return;
@@ -138,8 +148,9 @@ async function start(): Promise<void> {
     return;
   }
   hues = assignHues(feed.tags);
-  addEventListener("popstate", () => {
-    if (viewer.open) viewer.close();
+  window.addEventListener("popstate", () => {
+    if (skipNextPop) skipNextPop = false;
+    else if (viewer.open) viewer.close();
     else render();
   });
   render();
@@ -670,8 +681,12 @@ function postMedia(post: PostView, postUrl: string, network: string): HTMLElemen
 
 function closeViewer(): void {
   if (!viewer.open) return;
-  if (history.state?.viewer) history.back();
-  else viewer.close();
+  // Close now; the history step only tidies the URL stack, so a slow popstate can't leave it open.
+  viewer.close();
+  if (history.state?.viewer) {
+    skipNextPop = true;
+    history.back();
+  }
 }
 
 function play(thumb: HTMLElement, item: FeedItem): void {

@@ -1014,6 +1014,7 @@ html:has(.viewer[open]) {
 
 .viewer::backdrop {
   background: rgb(20 18 42 / 0.5);
+  cursor: pointer;
 }
 
 .viewer[open] {
@@ -1046,6 +1047,8 @@ html:has(.viewer[open]) {
 
 .viewer-sheet {
   display: grid;
+  align-content: start;
+  min-height: 100%;
   gap: 14px;
   padding: 10px 20px max(24px, env(safe-area-inset-bottom));
 }
