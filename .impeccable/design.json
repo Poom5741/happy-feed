@@ -1,0 +1,923 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T12:43:10.671Z",
+  "title": "Design System: Happy Feed",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Electric Violet",
+        "canonical": "#6a4cf5",
+        "oklch": "oklch(55.3% 0.238 283.5)",
+        "tonalRamp": [
+          "#120047",
+          "#2e0093",
+          "#4400bc",
+          "#5f3ce6",
+          "#7e67ff",
+          "#a08fff",
+          "#c5c4ff",
+          "#e8e9ff"
+        ]
+      },
+      "accent-ink": {
+        "role": "primary",
+        "displayName": "On Violet",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "lilac-ground": {
+        "role": "neutral",
+        "displayName": "Lilac Ground",
+        "canonical": "#f6f4fd",
+        "oklch": "oklch(97.1% 0.012 296.4)",
+        "tonalRamp": [
+          "#0b0b0e",
+          "#27252c",
+          "#45444b",
+          "#66656c",
+          "#8a8890",
+          "#aeacb5",
+          "#d1d0d5",
+          "#eeeef0"
+        ]
+      },
+      "paper-surface": {
+        "role": "neutral",
+        "displayName": "Paper Surface",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "midnight-ink": {
+        "role": "neutral",
+        "displayName": "Midnight Ink",
+        "canonical": "#1e1b33",
+        "oklch": "oklch(23.8% 0.045 288.2)",
+        "tonalRamp": [
+          "#0b0917",
+          "#25233b",
+          "#44415c",
+          "#64627f",
+          "#8785a4",
+          "#acaaca",
+          "#d0cfe2",
+          "#eeedf7"
+        ]
+      },
+      "dusk-muted": {
+        "role": "neutral",
+        "displayName": "Dusk Muted",
+        "canonical": "#5d5878",
+        "oklch": "oklch(47.8% 0.051 291.5)",
+        "tonalRamp": [
+          "#0b0818",
+          "#27213d",
+          "#45405f",
+          "#666182",
+          "#8984a6",
+          "#aea9cd",
+          "#d1cee4",
+          "#eeedf8"
+        ]
+      },
+      "lilac-line": {
+        "role": "neutral",
+        "displayName": "Lilac Line",
+        "canonical": "#e4e0f3",
+        "oklch": "oklch(91.5% 0.026 295.5)",
+        "tonalRamp": [
+          "#0c0a11",
+          "#272432",
+          "#464252",
+          "#676374",
+          "#8a8698",
+          "#afabbd",
+          "#d1cfda",
+          "#efeef3"
+        ]
+      },
+      "night-accent": {
+        "role": "primary",
+        "displayName": "Night Violet",
+        "canonical": "#a08bff",
+        "oklch": "oklch(70.6% 0.166 289.8)",
+        "tonalRamp": [
+          "#0f0033",
+          "#2d006f",
+          "#482995",
+          "#684ebc",
+          "#8a73e5",
+          "#ad99ff",
+          "#cfc6ff",
+          "#edeaff"
+        ]
+      },
+      "night-accent-ink": {
+        "role": "primary",
+        "displayName": "On Night Violet",
+        "canonical": "#14122a",
+        "oklch": "oklch(19.9% 0.047 285.1)",
+        "tonalRamp": [
+          "#0a0917",
+          "#24233c",
+          "#42425d",
+          "#636380",
+          "#8686a5",
+          "#aaaacb",
+          "#cecfe3",
+          "#ededf7"
+        ]
+      },
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Night Ground",
+        "canonical": "#14122a",
+        "oklch": "oklch(19.9% 0.047 285.1)",
+        "tonalRamp": [
+          "#0a0917",
+          "#24233c",
+          "#42425d",
+          "#636380",
+          "#8686a5",
+          "#aaaacb",
+          "#cecfe3",
+          "#ededf7"
+        ]
+      },
+      "night-surface": {
+        "role": "neutral",
+        "displayName": "Night Surface",
+        "canonical": "#1e1b3a",
+        "oklch": "oklch(24.3% 0.058 285.7)",
+        "tonalRamp": [
+          "#0a081a",
+          "#242241",
+          "#424063",
+          "#636186",
+          "#8585ab",
+          "#aaa9d2",
+          "#cecee8",
+          "#ededf9"
+        ]
+      },
+      "night-text": {
+        "role": "neutral",
+        "displayName": "Night Text",
+        "canonical": "#efecff",
+        "oklch": "oklch(95.1% 0.026 293.2)",
+        "tonalRamp": [
+          "#0b0a11",
+          "#272432",
+          "#454352",
+          "#666474",
+          "#898798",
+          "#aeabbd",
+          "#d1cfda",
+          "#eeeef3"
+        ]
+      },
+      "night-muted": {
+        "role": "neutral",
+        "displayName": "Night Muted",
+        "canonical": "#aaa5cc",
+        "oklch": "oklch(73.9% 0.056 290.8)",
+        "tonalRamp": [
+          "#0b0819",
+          "#272140",
+          "#454061",
+          "#666184",
+          "#8984a9",
+          "#ada8cf",
+          "#d0cee6",
+          "#eeedf9"
+        ]
+      },
+      "night-line": {
+        "role": "neutral",
+        "displayName": "Night Line",
+        "canonical": "#2d2950",
+        "oklch": "oklch(30.6% 0.069 286.3)",
+        "tonalRamp": [
+          "#0a071c",
+          "#242046",
+          "#423f68",
+          "#63608c",
+          "#8583b1",
+          "#aaa8d8",
+          "#ceceec",
+          "#ededfb"
+        ]
+      },
+      "night-focus": {
+        "role": "primary",
+        "displayName": "Night Focus",
+        "canonical": "#b9a8ff",
+        "oklch": "oklch(77.9% 0.123 292.3)",
+        "tonalRamp": [
+          "#0e0128",
+          "#2b105c",
+          "#493480",
+          "#6956a6",
+          "#8c7acd",
+          "#b09ff5",
+          "#d2c9fe",
+          "#eeebff"
+        ]
+      },
+      "ink-on-solid": {
+        "role": "neutral",
+        "displayName": "Ink on Solid",
+        "canonical": "#1e1b33",
+        "oklch": "oklch(23.8% 0.045 288.2)",
+        "tonalRamp": [
+          "#0b0917",
+          "#25233b",
+          "#44415c",
+          "#64627f",
+          "#8785a4",
+          "#acaaca",
+          "#d0cfe2",
+          "#eeedf7"
+        ]
+      },
+      "sunny": {
+        "role": "tertiary",
+        "displayName": "Sunny",
+        "canonical": "#ffc83d",
+        "oklch": "oklch(85.9% 0.158 85.8)",
+        "dark": "#ffd25e",
+        "tonalRamp": [
+          "#1d0300",
+          "#471600",
+          "#6a3800",
+          "#8e5b00",
+          "#b37f00",
+          "#daa500",
+          "#edcd87",
+          "#fcedcd"
+        ]
+      },
+      "sunny-ink": {
+        "role": "tertiary",
+        "displayName": "Sunny Ink",
+        "canonical": "#4a2f00",
+        "oklch": "oklch(33.0% 0.070 74.6)",
+        "dark": "#3d2700",
+        "tonalRamp": [
+          "#160700",
+          "#3a2000",
+          "#5b3f14",
+          "#7e6036",
+          "#a28359",
+          "#c8a87c",
+          "#e2ceb3",
+          "#f7ede0"
+        ]
+      },
+      "leaf": {
+        "role": "tertiary",
+        "displayName": "Leaf",
+        "canonical": "#2fbf7f",
+        "oklch": "oklch(71.5% 0.152 158.7)",
+        "tonalRamp": [
+          "#001500",
+          "#003901",
+          "#005b23",
+          "#007e43",
+          "#00a466",
+          "#3fca8a",
+          "#9ce4bb",
+          "#d8f8e4"
+        ]
+      },
+      "leaf-deep": {
+        "role": "tertiary",
+        "displayName": "Leaf Deep",
+        "canonical": "#1f9e66",
+        "oklch": "oklch(62.0% 0.136 158.2)",
+        "tonalRamp": [
+          "#001400",
+          "#003706",
+          "#005926",
+          "#007c47",
+          "#24a169",
+          "#55c88d",
+          "#a3e2bd",
+          "#daf7e5"
+        ]
+      },
+      "blush": {
+        "role": "tertiary",
+        "displayName": "Blush",
+        "canonical": "#ff9eb8",
+        "oklch": "oklch(80.5% 0.119 2.8)",
+        "dark": "#ff8fb0",
+        "tonalRamp": [
+          "#210008",
+          "#4f0021",
+          "#75213f",
+          "#9c4560",
+          "#c36882",
+          "#ec8da7",
+          "#fabecc",
+          "#ffe6ec"
+        ]
+      },
+      "sun-wash": {
+        "role": "secondary",
+        "displayName": "Sunflower Wash",
+        "canonical": "#fff3c4",
+        "oklch": "oklch(96.2% 0.062 95.4)",
+        "dark": "#2f2815",
+        "tonalRamp": [
+          "#100b00",
+          "#302600",
+          "#4f451a",
+          "#71663c",
+          "#94895e",
+          "#baae81",
+          "#d8d1b6",
+          "#f2efe2"
+        ]
+      },
+      "sun-solid": {
+        "role": "secondary",
+        "displayName": "Sunflower Solid",
+        "canonical": "#ffc21a",
+        "oklch": "oklch(84.6% 0.169 84.9)",
+        "dark": "#ffcf4a",
+        "tonalRamp": [
+          "#1e0100",
+          "#4a1200",
+          "#6d3600",
+          "#915900",
+          "#b77d00",
+          "#dfa300",
+          "#f0cc81",
+          "#fdedcb"
+        ]
+      },
+      "sun-ink": {
+        "role": "secondary",
+        "displayName": "Sunflower Ink",
+        "canonical": "#6b4500",
+        "oklch": "oklch(42.4% 0.090 73.5)",
+        "dark": "#ffe9a8",
+        "tonalRamp": [
+          "#190600",
+          "#3f1c00",
+          "#613c00",
+          "#855d23",
+          "#aa8148",
+          "#d1a56c",
+          "#e7ccaa",
+          "#f9ecdc"
+        ]
+      },
+      "tangerine-wash": {
+        "role": "secondary",
+        "displayName": "Tangerine Wash",
+        "canonical": "#ffe6d5",
+        "oklch": "oklch(94.1% 0.036 56.5)",
+        "dark": "#33221b",
+        "tonalRamp": [
+          "#120903",
+          "#342215",
+          "#544032",
+          "#766152",
+          "#9b8475",
+          "#c0a999",
+          "#ddcec4",
+          "#f4ede8"
+        ]
+      },
+      "tangerine-solid": {
+        "role": "secondary",
+        "displayName": "Tangerine Solid",
+        "canonical": "#ff8a3d",
+        "oklch": "oklch(75.0% 0.167 50.5)",
+        "dark": "#ff9a5c",
+        "tonalRamp": [
+          "#280000",
+          "#5c0000",
+          "#841200",
+          "#ac3e00",
+          "#d56400",
+          "#ff8a3d",
+          "#ffbe95",
+          "#ffe6d3"
+        ]
+      },
+      "tangerine-ink": {
+        "role": "secondary",
+        "displayName": "Tangerine Ink",
+        "canonical": "#7a2f00",
+        "oklch": "oklch(40.7% 0.116 45.0)",
+        "dark": "#ffd3b8",
+        "tonalRamp": [
+          "#210000",
+          "#500300",
+          "#752a00",
+          "#9b4d26",
+          "#c2714b",
+          "#eb956f",
+          "#f9c3ab",
+          "#ffe8dd"
+        ]
+      },
+      "mint-wash": {
+        "role": "secondary",
+        "displayName": "Mint Wash",
+        "canonical": "#d7f5e6",
+        "oklch": "oklch(94.4% 0.037 164.1)",
+        "dark": "#152f26",
+        "tonalRamp": [
+          "#030e08",
+          "#132c22",
+          "#324b40",
+          "#536d60",
+          "#759183",
+          "#99b6a8",
+          "#c4d6cd",
+          "#e9f1ed"
+        ]
+      },
+      "mint-solid": {
+        "role": "secondary",
+        "displayName": "Mint Solid",
+        "canonical": "#2fc489",
+        "oklch": "oklch(73.0% 0.149 161.3)",
+        "dark": "#45d9a0",
+        "tonalRamp": [
+          "#001500",
+          "#003908",
+          "#005b28",
+          "#007f49",
+          "#00a46b",
+          "#39ca8f",
+          "#9be4be",
+          "#d7f8e6"
+        ]
+      },
+      "mint-ink": {
+        "role": "secondary",
+        "displayName": "Mint Ink",
+        "canonical": "#0b5a3a",
+        "oklch": "oklch(41.5% 0.090 159.7)",
+        "dark": "#b7f1d8",
+        "tonalRamp": [
+          "#001204",
+          "#003316",
+          "#005334",
+          "#2f7654",
+          "#559a76",
+          "#7ac09a",
+          "#b3dcc5",
+          "#e1f4e9"
+        ]
+      },
+      "sky-wash": {
+        "role": "secondary",
+        "displayName": "Sky Wash",
+        "canonical": "#dbedff",
+        "oklch": "oklch(93.8% 0.031 248.2)",
+        "dark": "#172640",
+        "tonalRamp": [
+          "#050c13",
+          "#1a2835",
+          "#384755",
+          "#586877",
+          "#7b8b9c",
+          "#9fb0c1",
+          "#c8d2dd",
+          "#eaeff4"
+        ]
+      },
+      "sky-solid": {
+        "role": "secondary",
+        "displayName": "Sky Solid",
+        "canonical": "#4a9bff",
+        "oklch": "oklch(68.6% 0.168 255.2)",
+        "dark": "#66adff",
+        "tonalRamp": [
+          "#000236",
+          "#001775",
+          "#003f9b",
+          "#0364c3",
+          "#3789eb",
+          "#5eafff",
+          "#a4d4ff",
+          "#daf1ff"
+        ]
+      },
+      "sky-ink": {
+        "role": "secondary",
+        "displayName": "Sky Ink",
+        "canonical": "#0d4482",
+        "oklch": "oklch(39.0% 0.118 255.2)",
+        "dark": "#c4ddff",
+        "tonalRamp": [
+          "#00082a",
+          "#00225e",
+          "#0d4482",
+          "#3367a8",
+          "#568bcf",
+          "#7ab1f7",
+          "#b2d4ff",
+          "#e0f0ff"
+        ]
+      },
+      "grape-wash": {
+        "role": "secondary",
+        "displayName": "Grape Wash",
+        "canonical": "#ebe4ff",
+        "oklch": "oklch(93.2% 0.037 297.5)",
+        "dark": "#261e48",
+        "tonalRamp": [
+          "#0c0914",
+          "#282336",
+          "#474157",
+          "#686279",
+          "#8b859d",
+          "#b0a9c3",
+          "#d2cede",
+          "#efedf5"
+        ]
+      },
+      "grape-solid": {
+        "role": "secondary",
+        "displayName": "Grape Solid",
+        "canonical": "#8a6dff",
+        "oklch": "oklch(63.7% 0.208 288.2)",
+        "dark": "#a48fff",
+        "tonalRamp": [
+          "#12003e",
+          "#300082",
+          "#4914aa",
+          "#6743d3",
+          "#886bfd",
+          "#ab92ff",
+          "#cdc4ff",
+          "#ece9ff"
+        ]
+      },
+      "grape-ink": {
+        "role": "secondary",
+        "displayName": "Grape Ink",
+        "canonical": "#3a2196",
+        "oklch": "oklch(36.7% 0.176 283.2)",
+        "dark": "#ddd4ff",
+        "tonalRamp": [
+          "#0c0038",
+          "#260077",
+          "#3f299e",
+          "#5d50c6",
+          "#7e75ef",
+          "#a19bff",
+          "#c7c8ff",
+          "#e9ebff"
+        ]
+      },
+      "berry-wash": {
+        "role": "secondary",
+        "displayName": "Berry Wash",
+        "canonical": "#ffe0eb",
+        "oklch": "oklch(93.5% 0.037 354.4)",
+        "dark": "#36192a",
+        "tonalRamp": [
+          "#13070c",
+          "#351f27",
+          "#553d46",
+          "#785e67",
+          "#9c808a",
+          "#c2a5af",
+          "#decbd2",
+          "#f5ecef"
+        ]
+      },
+      "berry-solid": {
+        "role": "secondary",
+        "displayName": "Berry Solid",
+        "canonical": "#ff5c93",
+        "oklch": "oklch(70.3% 0.202 3.1)",
+        "dark": "#ff79a6",
+        "tonalRamp": [
+          "#2d0006",
+          "#65001d",
+          "#8f003a",
+          "#b9085b",
+          "#e4427d",
+          "#ff6ca1",
+          "#ffafc9",
+          "#ffdfeb"
+        ]
+      },
+      "berry-ink": {
+        "role": "secondary",
+        "displayName": "Berry Ink",
+        "canonical": "#84143f",
+        "oklch": "oklch(40.6% 0.147 4.6)",
+        "dark": "#ffcadb",
+        "tonalRamp": [
+          "#260006",
+          "#58001d",
+          "#7f0d3b",
+          "#a7385b",
+          "#d05e7e",
+          "#fa83a2",
+          "#ffb9c9",
+          "#ffe4eb"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Wordmark and moment titles."
+      },
+      "headline-watch": {
+        "displayName": "Watch Title",
+        "purpose": "Video titles."
+      },
+      "headline-read": {
+        "displayName": "Read Title",
+        "purpose": "Article titles in the reading voice."
+      },
+      "body-reading": {
+        "displayName": "Reading Body",
+        "purpose": "Summaries (62ch, 4-line clamp) and moment copy (34ch)."
+      },
+      "body": {
+        "displayName": "UI Body",
+        "purpose": "Base UI text."
+      },
+      "title-tab": {
+        "displayName": "Tab",
+        "purpose": "Format tabs; 1rem in the desktop rail."
+      },
+      "label-chip": {
+        "displayName": "Chip",
+        "purpose": "Tag and source chips."
+      },
+      "label-byline": {
+        "displayName": "Byline",
+        "purpose": "Author (700) and relative time (tabular numbers)."
+      },
+      "label-tag": {
+        "displayName": "Tag",
+        "purpose": "Tag pills on cards."
+      },
+      "label-format": {
+        "displayName": "Format Pill",
+        "purpose": "Watch or Read pill in the byline."
+      }
+    },
+    "themes": {
+      "mechanism": "prefers-color-scheme with :root[data-theme] override set by the header toggle and persisted in localStorage; :root[data-resolved] drives the toggle icon.",
+      "lightToDark": {
+        "lilac-ground": "night-ground",
+        "paper-surface": "night-surface",
+        "midnight-ink": "night-text",
+        "dusk-muted": "night-muted",
+        "lilac-line": "night-line",
+        "accent": "night-accent",
+        "accent-ink": "night-accent-ink",
+        "on-jewel": "#1e1b33 (ink-on-solid) in both themes"
+      },
+      "jewelMix": {
+        "light": "50%",
+        "dark": "80% (dark ink clears 4.5:1 for every hue; lowest is grape at 4.62)"
+      }
+    },
+    "hueAssignment": {
+      "order": [
+        "sky",
+        "sun",
+        "berry",
+        "mint",
+        "grape",
+        "tangerine"
+      ],
+      "tags": "sorted tag list walks the order",
+      "fallback": "FNV-1a hash of the author",
+      "source": "src/shared/hues.ts"
+    },
+    "shadows": [
+      {
+        "name": "soft",
+        "value": "0 1px 2px rgb(40 30 90 / 0.06), 0 8px 24px -12px rgb(40 30 90 / 0.18)",
+        "purpose": "Ambient lift for surfaces (tab group, toggle, moments, thumbnails) and read tiles on hover."
+      },
+      {
+        "name": "soft-night",
+        "value": "0 1px 2px rgb(0 0 0 / 0.4), 0 10px 28px -14px rgb(0 0 0 / 0.7)",
+        "purpose": "Dark-theme equivalent of soft."
+      },
+      {
+        "name": "thumb-ring",
+        "value": "0 0 0 4px var(--wash), var(--shadow)",
+        "purpose": "Hue wash ring around watch thumbnails."
+      },
+      {
+        "name": "play",
+        "value": "0 6px 18px -6px rgb(0 0 0 / 0.5)",
+        "purpose": "Deeper drop under the round play button."
+      },
+      {
+        "name": "focus",
+        "value": "outline: 3px solid var(--focus); outline-offset: 3px (4px on whole cards)",
+        "purpose": "Keyboard focus."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The one easing curve for every transition."
+      },
+      {
+        "name": "control",
+        "value": "0.25s",
+        "purpose": "Tab and chip color changes."
+      },
+      {
+        "name": "surface",
+        "value": "0.4s",
+        "purpose": "Theme color swap, tile lift, play and go-arrow motion."
+      },
+      {
+        "name": "toggle",
+        "value": "0.5s",
+        "purpose": "Theme toggle rotation and icon cross-fade."
+      },
+      {
+        "name": "image",
+        "value": "0.6s",
+        "purpose": "Thumbnail zoom to 1.03 on hover."
+      },
+      {
+        "name": "cheer",
+        "value": "hop 1.4s + leaf wave 0.7s x3",
+        "purpose": "Sprout greets once when the caught-up moment scrolls into view."
+      },
+      {
+        "name": "pulse",
+        "value": "1.6s ease-in-out infinite",
+        "purpose": "Loading skeleton bars."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation and transition none",
+        "purpose": "prefers-reduced-motion: reduce disables all motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-phone",
+        "value": "720px",
+        "note": "24px gutter, larger titles and read padding"
+      },
+      {
+        "name": "desktop",
+        "value": "1024px",
+        "note": "300px sticky rail plus 2-column tile grid"
+      },
+      {
+        "name": "wide",
+        "value": "1440px",
+        "note": "3-column tile grid"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Format Tabs",
+      "kind": "nav",
+      "refersTo": "tab-active",
+      "description": "Pill track answering watch or read; the selected tab fills with Electric Violet.",
+      "html": "<div class=\"ds-tabs\" role=\"group\"><button class=\"ds-tab\" aria-pressed=\"true\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m12 2 10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5\"/></svg>All<span class=\"ds-count\">78</span></button><button class=\"ds-tab\" aria-pressed=\"false\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z\"/></svg>Watch<span class=\"ds-count\">38</span></button><button class=\"ds-tab\" aria-pressed=\"false\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z\"/></svg>Read<span class=\"ds-count\">40</span></button></div>",
+      "css": ".ds-tabs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgb(40 30 90 / 0.06), 0 8px 24px -12px rgb(40 30 90 / 0.18); font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; } .ds-tab { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: #5d5878; font: inherit; font-weight: 650; font-size: 0.95rem; cursor: pointer; transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-tab:hover { color: #1e1b33; } .ds-tab[aria-pressed=\"true\"] { background: #6a4cf5; color: #ffffff; } .ds-tab .ds-count { font-weight: 500; font-size: 0.8rem; font-variant-numeric: tabular-nums; opacity: 0.75; } .ds-tab:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Surface pill with a hue dot; selected fills with the hue wash.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" aria-pressed=\"true\"><span class=\"ds-dot\"></span>Coding</button><button class=\"ds-chip ds-berry\" aria-pressed=\"false\"><span class=\"ds-dot\"></span>HCI</button><button class=\"ds-chip ds-src\" aria-pressed=\"false\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z\"/></svg>Blogs</button></div>",
+      "css": ".ds-chips { display: flex; gap: 8px; flex-wrap: wrap; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; } .ds-chip { --wash: #dbedff; --solid: #4a9bff; --ink: #0d4482; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 14px 0 11px; border: 1.5px solid #e4e0f3; border-radius: 999px; background: #ffffff; color: #1e1b33; font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-chip.ds-berry { --wash: #ffe0eb; --solid: #ff5c93; --ink: #84143f; } .ds-chip.ds-src { --wash: #1e1b33; --solid: #1e1b33; --ink: #f6f4fd; } .ds-chip.ds-src svg { width: 16px; height: 16px; color: #5d5878; } .ds-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--solid); } .ds-chip:hover { border-color: var(--solid); } .ds-chip[aria-pressed=\"true\"] { background: var(--wash); border-color: var(--solid); color: var(--ink); } .ds-chip:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; }"
+    },
+    {
+      "name": "Watch Card",
+      "kind": "card",
+      "refersTo": "watch-thumb",
+      "description": "The picture leads, with no frame: a thumbnail with a wash ring and a hue play button, Bricolage title below.",
+      "html": "<article class=\"ds-watch\"><a class=\"ds-thumb\" href=\"#\"><span class=\"ds-img\"></span><span class=\"ds-play\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"currentColor\" stroke=\"none\"><path d=\"M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z\"/></svg></span></a><h2 class=\"ds-wtitle\">What might creative coding look like in the age of AI?</h2><div class=\"ds-byline\"><b>Patt Vira</b><span class=\"ds-format\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"currentColor\" stroke=\"none\"><path d=\"M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z\"/></svg>Watch</span><time>3 days ago</time></div></article>",
+      "css": ".ds-watch { --wash: #fff3c4; --solid: #ffc21a; display: grid; gap: 12px; max-width: 420px; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; color: #1e1b33; } .ds-thumb { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 24px; overflow: hidden; background: var(--wash); box-shadow: 0 0 0 4px var(--wash), 0 1px 2px rgb(40 30 90 / 0.06), 0 8px 24px -12px rgb(40 30 90 / 0.18); } .ds-img { position: absolute; inset: 0; background: linear-gradient(135deg, #ffe08a, #ffb48a); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); } .ds-thumb:hover .ds-img { transform: scale(1.03); } .ds-play { position: absolute; left: 14px; bottom: 14px; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--solid); color: #1e1b33; box-shadow: 0 6px 18px -6px rgb(0 0 0 / 0.5); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .ds-play svg { width: 22px; height: 22px; } .ds-thumb:hover .ds-play { transform: scale(1.08); } .ds-thumb:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; } .ds-wtitle { margin: 0; padding-inline: 4px; font-size: 1.3rem; font-weight: 700; line-height: 1.22; letter-spacing: -0.015em; font-variation-settings: \"opsz\" 28; text-wrap: balance; } .ds-byline { display: flex; align-items: center; gap: 8px; padding-inline: 4px; font-size: 0.875rem; color: #5d5878; } .ds-byline b { color: #1e1b33; } .ds-byline time { margin-left: auto; font-variant-numeric: tabular-nums; } .ds-format { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 7px; border-radius: 999px; background: var(--solid); color: #1e1b33; font-size: 0.75rem; font-weight: 700; } .ds-format svg { width: 13px; height: 13px; }"
+    },
+    {
+      "name": "Read Card",
+      "kind": "card",
+      "refersTo": "read-tile-sky",
+      "description": "A tinted wash tile with monogram, Literata title and summary, tags and a go arrow; works with no image.",
+      "html": "<article class=\"ds-read\"><header class=\"ds-rbyline\"><span class=\"ds-mono\">I</span><b>Ink and Switch</b><span class=\"ds-rformat\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"currentColor\" stroke=\"none\"><path d=\"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z\"/></svg>Read</span><time>2 wk. ago</time></header><h2 class=\"ds-rtitle\"><a href=\"#\">Dispatch 020: Livelymerge and Effective Expressiveness</a></h2><p class=\"ds-summary\">For us in the Northern Hemisphere, fall is in full swing. The weather is cooling, and we are spending more time indoors.</p><footer class=\"ds-foot\"><span class=\"ds-tag\">HCI</span><span class=\"ds-go\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17 17 7M8 7h9v9\"/></svg></span></footer></article>",
+      "css": ".ds-read { --wash: #dbedff; --solid: #4a9bff; --ink: #0d4482; position: relative; display: grid; gap: 12px; max-width: 420px; padding: 18px 18px 16px; border-radius: 24px; background: var(--wash); color: #1e1b33; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .ds-read:hover { transform: translateY(-2px); box-shadow: 0 1px 2px rgb(40 30 90 / 0.06), 0 8px 24px -12px rgb(40 30 90 / 0.18); } .ds-read:focus-within { outline: 3px solid #6a4cf5; outline-offset: 4px; } .ds-rbyline { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--ink); } .ds-rbyline time { margin-left: auto; } .ds-mono { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--solid); color: #1e1b33; font-weight: 800; font-size: 0.95rem; } .ds-rformat { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 7px; border-radius: 999px; background: var(--solid); color: #1e1b33; font-size: 0.75rem; font-weight: 700; } .ds-rformat svg { width: 13px; height: 13px; } .ds-rtitle { margin: 0; font-family: Literata, Georgia, serif; font-size: 1.3rem; font-weight: 650; line-height: 1.28; letter-spacing: -0.01em; } .ds-rtitle a { color: inherit; text-decoration: none; outline: none; } .ds-rtitle a::after { content: \"\"; position: absolute; inset: 0; } .ds-summary { margin: 0; font-family: Literata, Georgia, serif; font-size: 1rem; line-height: 1.55; color: color-mix(in srgb, #1e1b33 78%, var(--ink)); } .ds-foot { display: flex; align-items: center; justify-content: space-between; } .ds-tag { padding: 2px 10px; border-radius: 999px; background: color-mix(in srgb, var(--solid) 22%, transparent); color: var(--ink); font-size: 0.78rem; font-weight: 650; } .ds-go { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #ffffff; color: var(--ink); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .ds-go svg { width: 16px; height: 16px; } .ds-read:hover .ds-go { transform: rotate(45deg); }"
+    },
+    {
+      "name": "Moment",
+      "kind": "custom",
+      "refersTo": "moment",
+      "description": "The sprout's stopping point: caught up, the end, empty and error states.",
+      "html": "<div class=\"ds-moment\"><svg viewBox=\"0 0 64 64\" width=\"96\" height=\"96\" aria-hidden=\"true\"><path d=\"M31 17C26 6 15 5 10 8c2 8 11 14 21 9Z\" fill=\"#2fbf7f\"/><path d=\"M33 17c4-11 15-13 21-10-2 9-11 15-21 10Z\" fill=\"#1f9e66\"/><circle cx=\"32\" cy=\"38\" r=\"21\" fill=\"#ffc83d\"/><g fill=\"#4a2f00\"><ellipse cx=\"24.5\" cy=\"36\" rx=\"2.6\" ry=\"3.4\"/><ellipse cx=\"39.5\" cy=\"36\" rx=\"2.6\" ry=\"3.4\"/></g><path d=\"M26 44q6 5.5 12 0\" fill=\"none\" stroke=\"#4a2f00\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><circle cx=\"19\" cy=\"43\" r=\"3.2\" fill=\"#ff9eb8\"/><circle cx=\"45\" cy=\"43\" r=\"3.2\" fill=\"#ff9eb8\"/></svg><p class=\"ds-mtitle\">You're all caught up!</p><p class=\"ds-mbody\">Everything new from this week is above. Older favourites wait below, if you want them.</p><button class=\"ds-button\">Show everything</button></div>",
+      "css": ".ds-moment { display: grid; justify-items: center; gap: 6px; max-width: 420px; padding: 36px 20px 32px; border-radius: 32px; background: #ffffff; box-shadow: 0 1px 2px rgb(40 30 90 / 0.06), 0 8px 24px -12px rgb(40 30 90 / 0.18); text-align: center; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; color: #1e1b33; } .ds-moment svg { margin-bottom: 6px; } .ds-mtitle { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.025em; font-variation-settings: \"opsz\" 48; } .ds-mbody { margin: 0; max-width: 34ch; font-family: Literata, Georgia, serif; color: #5d5878; } .ds-button { margin-top: 14px; min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: #6a4cf5; color: #ffffff; font: inherit; font-weight: 700; cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-button:active { transform: scale(0.97); } .ds-button:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; }"
+    },
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "The only filled button: an Electric Violet pill used for a moment's action.",
+      "html": "<button class=\"ds-btn\">Show everything</button>",
+      "css": ".ds-btn { min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: #6a4cf5; color: #ffffff; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; }"
+    },
+    {
+      "name": "Masthead",
+      "kind": "nav",
+      "refersTo": "theme-toggle",
+      "description": "Sprout and wordmark with the circular theme toggle, the only theme control.",
+      "html": "<header class=\"ds-mast\"><a class=\"ds-brand\" href=\"#\"><svg viewBox=\"0 0 64 64\" width=\"40\" height=\"40\" aria-hidden=\"true\"><path d=\"M31 17C26 6 15 5 10 8c2 8 11 14 21 9Z\" fill=\"#2fbf7f\"/><path d=\"M33 17c4-11 15-13 21-10-2 9-11 15-21 10Z\" fill=\"#1f9e66\"/><circle cx=\"32\" cy=\"38\" r=\"21\" fill=\"#ffc83d\"/><g fill=\"#4a2f00\"><ellipse cx=\"24.5\" cy=\"36\" rx=\"2.6\" ry=\"3.4\"/><ellipse cx=\"39.5\" cy=\"36\" rx=\"2.6\" ry=\"3.4\"/></g><path d=\"M26 44q6 5.5 12 0\" fill=\"none\" stroke=\"#4a2f00\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><circle cx=\"19\" cy=\"43\" r=\"3.2\" fill=\"#ff9eb8\"/><circle cx=\"45\" cy=\"43\" r=\"3.2\" fill=\"#ff9eb8\"/></svg><span>Happy Feed</span></a><button class=\"ds-toggle\" aria-label=\"Switch to dark mode\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41\"/></svg></button></header>",
+      "css": ".ds-mast { display: flex; align-items: center; justify-content: space-between; max-width: 420px; font-family: 'Bricolage Grotesque', ui-rounded, system-ui, sans-serif; } .ds-brand { display: flex; align-items: center; gap: 10px; color: #1e1b33; text-decoration: none; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; font-variation-settings: \"opsz\" 48; } .ds-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #ffffff; color: #1e1b33; box-shadow: 0 1px 2px rgb(40 30 90 / 0.06), 0 8px 24px -12px rgb(40 30 90 / 0.18); cursor: pointer; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); } .ds-toggle svg { width: 20px; height: 20px; } .ds-toggle:hover { transform: rotate(-20deg); } .ds-toggle:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; } .ds-brand:focus-visible { outline: 3px solid #6a4cf5; outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tile Box",
+    "overview": "Happy Feed is a box of colorful index tiles. Every tag owns a hue, and every card says up front whether it is something to watch or something to read. The ground is quiet (a cool lilac-white by day, a deep violet night after dark), so the six tag hues carry the cheer. Everything is chunky and rounded and drawn with a soft hand. Nibble's category-colored tiles and Pi's warm mixed card shapes are the references.\n\nDensity is relaxed: one column on a phone, used one-handed in bed, with generous gaps between cards. On desktop a sticky rail holds the controls and the feed becomes a grid of tiles. The sprout mascot appears in the masthead and again at the stopping points (\"caught up\", \"that's everything\", empty and error states), so the moments where the feed ends feel friendly.\n\nLight and dark are equal citizens. A header toggle switches between them and there is no settings screen. The voice is warm and never alarmed: no red warnings, no badges asking for attention.",
+    "keyCharacteristics": [
+      "Six tag hues (sun, tangerine, mint, sky, grape, berry), each with a wash, a solid and an ink.",
+      "Watch and read cards have different anatomy, not only a different label.",
+      "Two voices: Bricolage Grotesque for the UI and watch titles, Literata for reading.",
+      "Pill and 24px-tile geometry everywhere, with drawn icons on a 2px round stroke.",
+      "Soft, cool-tinted shadows, and a sprout mascot that marks the stopping points."
+    ],
+    "rules": [
+      {
+        "name": "The Hue Owns the Card Rule",
+        "body": "A card takes the hue of its first tag, falling back to a hash of the author. Tags are assigned hues in sorted order through the sequence sky, sun, berry, mint, grape, tangerine, so neighbors contrast and a small tag set never lands on three warm hues in a row. Never pick a hue by hand for a single card.",
+        "section": "colors"
+      },
+      {
+        "name": "The Accent Is a Control Rule",
+        "body": "Electric Violet marks only the selected tab, the moment action and focus. Content gets its color from the tag hues and never from the accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Jewel Contrast Rule",
+        "body": "A read tile with no image becomes a jewel tile: the solid mixed into the wash (50% in light), with on-jewel text. On-jewel text must clear 4.5:1 for every hue in both themes. Dark mode mixes 80% solid with ink-on-solid text; the lowest hue, grape, measures 4.62:1.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "The title face signals the format. A watch title is set in Bricolage and a read title in Literata. Never set a read title in the display face, and never set UI chrome in Literata.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Tile Rule",
+        "body": "Read tiles are flat at rest and lift (2px up, plus the shadow) only on hover. Separate tiles from the ground with color, not with a border or a resting shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do give every card and tag chip one of the six hues through the shared hue assignment, and use that hue's wash, solid and ink together.",
+      "Do keep watch and read visibly distinct in anatomy (a frameless picture versus a tinted tile) and in title voice (Bricolage versus Literata), not only in the format pill.",
+      "Do make every read card work with no image. The jewel tile is the image-less form.",
+      "Do ship every color change in both themes and through the header toggle. Check text on washes, solids and jewels at 4.5:1 in each theme.",
+      "Do use the shared out-expo ease (cubic-bezier(0.16, 1, 0.3, 1)), and let `prefers-reduced-motion` switch off every animation and transition.",
+      "Do mark stopping points with the sprout mascot, happy when caught up and sleepy at the end."
+    ],
+    "donts": [
+      "Don't build the gray news column of identical photo cards. A card without its hue is off-system.",
+      "Don't use Electric Violet as a content or tag color.",
+      "Don't add a settings screen for theming. The header toggle is the only theme control.",
+      "Don't draw icons as emoji or font glyphs. Add them as SVG symbols on the 2px round stroke.",
+      "Don't give read tiles a hard border or a resting shadow. Color separates them, and the shadow is only for hover."
+    ]
+  }
+}
