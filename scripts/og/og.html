@@ -88,7 +88,7 @@
 
       .chips {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         margin-top: 6px;
       }
 
@@ -96,11 +96,12 @@
         display: inline-flex;
         align-items: center;
         gap: 9px;
-        padding: 10px 18px 10px 14px;
+        padding: 9px 15px 9px 12px;
         border: 2px solid #e4e0f3;
         border-radius: 999px;
         background: #fff;
-        font-size: 21px;
+        white-space: nowrap;
+        font-size: 19px;
         font-weight: 650;
       }
 
@@ -146,7 +147,7 @@
         height: 200px;
         border-radius: 20px;
         overflow: hidden;
-        background: #fff3c4;
+        background: #ffe0eb;
       }
 
       .thumb svg {
@@ -164,7 +165,7 @@
         width: 64px;
         height: 64px;
         border-radius: 50%;
-        background: #ffc21a;
+        background: #ff5c93;
         box-shadow: 0 8px 20px -8px rgb(0 0 0 / 0.5);
       }
 
@@ -244,7 +245,7 @@
       .jewel {
         left: 720px;
         top: 412px;
-        background: #ff9ebc;
+        background: #83ddb8;
         color: var(--ink-on-solid);
         transform: rotate(3deg);
       }
@@ -252,11 +253,11 @@
       .jewel .mono,
       .jewel .pill {
         background: var(--ink-on-solid);
-        color: #ff9ebc;
+        color: #83ddb8;
       }
 
       .jewel .pill svg {
-        fill: #ff9ebc;
+        fill: #83ddb8;
       }
 
     </style>
@@ -284,8 +285,9 @@
         <p class="tagline">Videos and posts from creators I love. <em>No doom, just delight.</em></p>
         <div class="chips">
           <span class="chip"><span class="dot" style="background: #4a9bff"></span>Coding</span>
-          <span class="chip"><span class="dot" style="background: #ffc21a"></span>Creative Coding</span>
-          <span class="chip"><span class="dot" style="background: #ff5c93"></span>HCI</span>
+          <span class="chip"><span class="dot" style="background: #ff5c93"></span>Creative Coding</span>
+          <span class="chip"><span class="dot" style="background: #2fc489"></span>HCI</span>
+          <span class="chip"><span class="dot" style="background: #8a6dff"></span>Math</span>
         </div>
       </div>
 
@@ -299,7 +301,7 @@
         <h2 class="title">p5.js Coding Tutorial | Interactive Hexagonal Truchet Tiles</h2>
         <div class="byline">
           Patt Vira
-          <span class="pill" style="background: #ffc21a"><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" /></svg>Watch</span>
+          <span class="pill" style="background: #ff5c93"><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" /></svg>Watch</span>
         </div>
       </article>
 
@@ -315,7 +317,7 @@
     <script>
       const svg = document.getElementById("truchet");
       const size = 40;
-      const colors = ["#ffc21a", "#ff8a3d", "#ff5c93"];
+      const colors = ["#ff5c93", "#8a6dff", "#ff8a3d"];
       let seed = 7;
       const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
       let paths = "";
