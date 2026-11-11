@@ -28,8 +28,9 @@ export function isExcluded(item: Excludable, active: ReadonlySet<ExcludeId>): bo
   const text = `${item.title}\n${item.summary ?? ""}`;
   for (const id of active) {
     const { hide, keep } = PATTERNS[id];
-    // A keep phrase wins over the whole post: "No AI" content is exactly what the preset is for.
-    if (hide.test(text) && !keep?.test(text)) return true;
+    // A keep phrase only counts in the title: "No AI. Build cat in C" is the point of the post,
+    // while "...to prove a point: No AI." in a summary about AI is still a post about AI.
+    if (hide.test(text) && !keep?.test(item.title)) return true;
   }
   return false;
 }

@@ -20,6 +20,11 @@ test("posts that say No AI stay visible even when they mention AI elsewhere", ()
   expect(isExcluded({ title: "Making art with no ai at all" }, ai)).toBe(false);
 });
 
+test("a No AI phrase in the summary does not rescue a post about AI", () => {
+  const post = { title: "pure Human beats AI slop", summary: "I took an extreme path to prove a point: No AI." };
+  expect(isExcluded(post, ai)).toBe(true);
+});
+
 test("nothing is hidden when no preset is active", () => {
   expect(isExcluded({ title: "AI everywhere" }, new Set())).toBe(false);
 });

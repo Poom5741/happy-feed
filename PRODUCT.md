@@ -24,7 +24,7 @@ There is no ranking for engagement. Only hand-picked sources are shown, plus a m
 - Collections are edited by hand as JSON. Each entry has a name, tags, and provider URLs (`youtube`, `rss`, `substack`, `website`, `twitter`, `facebook`).
 - Filters by tag, source, and person live in the URL, so they can be bookmarked.
 - Every card can be favourited or marked read/watched. Marked posts leave the feed and rest in the Archive; Favourites and Archive are their own lists (`?view=favourites`, `?view=archive`). Both live in the browser's storage with a copy of each post, so they survive the post aging out of the feed, but they do not sync between devices.
-- Topic excludes are presets toggled in the app (today: "No AI", which hides posts whose title or summary mentions AI, Artificial Intelligence or Superintelligence, except posts that say "No AI", which stay visible). The choice persists on the device, unlike the URL filters. The build-time `mute` list in a collection still removes posts for everyone.
+- Topic excludes are presets toggled in the app (today: "No AI", which hides posts whose title or summary mentions AI, Artificial Intelligence or Superintelligence, except posts whose title says "No AI", which stay visible). The choice persists on the device, unlike the URL filters. The build-time `mute` list in a collection still removes posts for everyone.
 
 ## Capabilities and Constraints
 
