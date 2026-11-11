@@ -14,6 +14,7 @@
     { "name": "Inigo Quilez", "youtube": "https://www.youtube.com/@InigoQuilez", "tags": ["Creative Coding"] },
     { "name": "Stack Diver", "description": "Sun's Blog", "rss": "https://stackdiver.com/feed.xml", "tags": ["HCI"] },
     { "name": "Ink and Switch", "rss": "https://www.inkandswitch.com/index.xml", "tags": ["HCI"] },
+    { "name": "Geoffrey Litt", "rss": "https://www.geoffreylitt.com/feed.xml", "tags": ["HCI"] },
     { "name": "3Blue1Brown", "youtube": "https://www.youtube.com/@3blue1brown", "substack": "https://3blue1brown.substack.com", "tags": ["Math"] },
     { "name": "carykh", "youtube": "https://www.youtube.com/@carykh", "tags": ["Computer Science"] },
     { "name": "Grownkid", "substack": "https://grownkid.substack.com", "tags": ["Play"] }
