@@ -27,6 +27,7 @@ const registry = (rss: RawItem[]): ProviderRegistry => ({
   website: noProvider,
   twitter: noProvider,
   facebook: noProvider,
+  archive: noProvider,
 });
 
 const collection: Collection = {
@@ -64,4 +65,33 @@ test("keeps every item a source publishes, newest first", async () => {
   const feed = await buildFeed([collection], registry(many), now);
   expect(feed.items).toHaveLength(40);
   expect(feed.items[0]!.title).toBe("Post 0");
+});
+
+test("merges the same post from RSS and an archive page, keeping the richer copy", async () => {
+  const withArchive: Collection = {
+    name: "Faves",
+    mute: [],
+    entries: [{ name: "Geoffrey", tags: [], sources: { rss: "https://example.com/feed.xml" }, archive: "https://example.com/" }],
+  };
+  const providers = {
+    ...registry([{ id: "rss-1", title: "Code like a surgeon", url: "https://example.com/2025/10/24/code-like-a-surgeon.html", summary: "From RSS", publishedAt: "2025-10-24T10:00:00.000Z" }]),
+    archive: async () => [
+      { id: "a-1", title: "Code like a surgeon", url: "https://www.example.com/2025/10/24/code-like-a-surgeon", publishedAt: "2025-10-24T12:00:00.000Z" },
+      { id: "a-2", title: "An older essay", url: "https://www.example.com/2015/01/01/older", summary: "From the archive", publishedAt: "2015-01-01T12:00:00.000Z" },
+    ],
+  };
+  const feed = await buildFeed([withArchive], providers, now);
+  expect(feed.items.map((item) => [item.title, item.kind, item.summary])).toEqual([
+    ["Code like a surgeon", "rss", "From RSS"],
+    ["An older essay", "rss", "From the archive"],
+  ]);
+});
+
+test("posts that differ only by query string stay separate", async () => {
+  const videos = [
+    { id: "v1", title: "One", url: "https://www.youtube.com/watch?v=aaa", publishedAt: "2026-11-01T00:00:00.000Z" },
+    { id: "v2", title: "Two", url: "https://www.youtube.com/watch?v=bbb", publishedAt: "2026-11-02T00:00:00.000Z" },
+  ];
+  const feed = await buildFeed([collection], registry(videos), now);
+  expect(feed.items.map((item) => item.title)).toEqual(["Two", "One"]);
 });

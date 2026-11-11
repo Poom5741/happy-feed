@@ -30,7 +30,7 @@ Every `collection/*.json` file is loaded. Unknown keys and bad URLs fail the bui
       "tags": ["Creative Coding"],      // filter chips
       "youtube": "https://www.youtube.com/@TheCodingTrain",
       "twitter": "https://x.com/thecodingtrain"
-      // also: "rss", "substack", "website", "bluesky", "mastodon", "facebook". An entry needs at least one.
+      // also: "rss", "substack", "website", "bluesky", "mastodon", "facebook", plus "archive" (an index page that links every post, for blogs whose RSS only holds recent ones). An entry needs at least one.
     }
   ]
 }
@@ -44,10 +44,10 @@ Each source keeps every post its feed publishes, with no age cutoff, and the pag
 | --- | --- | --- |
 | `youtube` | Resolves a `@handle` to its channel id from the channel page (cached in `.cache/youtube-ids.json`), then reads the channel's Atom feed. `/channel/UC…` URLs skip the lookup. | YouTube's feed holds only the latest 15 videos, Shorts included. |
 | `rss` | Reads RSS 2.0 or Atom. The image comes from `media:thumbnail`, an image enclosure, or the first `<img>` in the content. | |
-| `substack` | Reads the publication's `/feed`. Works for `*.substack.com` and custom domains. | Paywalled posts only show their preview. |
+| `substack` | Pages through the publication's whole archive (`/api/v1/archive`), falling back to `/feed`. Works for `*.substack.com` and custom domains. | Paywalled posts only show their preview. |
 | `website` | Finds `<link rel="alternate" type="application/rss+xml">` (or Atom) on the page and reads that feed. | Fails when the site advertises no feed. Use `rss` with the feed URL instead. |
-| `bluesky` | Reads a profile's public RSS at `https://bsky.app/profile/<handle>/rss`. | Posts have no titles; the card shows the post text. |
-| `mastodon` | Reads a profile's public RSS at `https://<server>/@<user>.rss`. | Only public posts. Long posts are cut at about 280 characters, linking to the full post. |
+| `bluesky` | Pages through every post with the public AppView (`getAuthorFeed`, no replies or reposts), falling back to the profile's RSS. | Posts have no titles; the card shows the post text. |
+| `mastodon` | Pages through every public post with the server's API (no replies or boosts), falling back to `<profile>.rss`. | Long posts are cut at about 280 characters on the card; the in-app viewer shows them in full. |
 | `twitter` | Reads `RSS_BRIDGE` with `{handle}` replaced, such as `https://rsshub.example.com/twitter/user/{handle}`. | No free public source exists, so without a bridge these entries are skipped. |
 | `facebook` | Same, through `RSS_BRIDGE_FACEBOOK`. | Same. |
 

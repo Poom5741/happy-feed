@@ -93,7 +93,22 @@ function absolute(href: string | undefined, base: string): string | undefined {
   }
 }
 
-const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
+const ENTITIES: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  ldquo: "\u201C",
+  rdquo: "\u201D",
+  lsquo: "\u2018",
+  rsquo: "\u2019",
+  mdash: "\u2014",
+  ndash: "\u2013",
+  hellip: "\u2026",
+  copy: "\u00A9",
+};
 
 export function htmlToText(html: string): string {
   return html
@@ -109,7 +124,7 @@ export function htmlToText(html: string): string {
     .trim();
 }
 
-function truncate(value: string): string {
+export function truncate(value: string): string {
   if (value.length <= SUMMARY_LENGTH) return value;
   const cut = value.slice(0, SUMMARY_LENGTH);
   return `${cut.slice(0, cut.lastIndexOf(" ") > 200 ? cut.lastIndexOf(" ") : SUMMARY_LENGTH).trimEnd()}…`;

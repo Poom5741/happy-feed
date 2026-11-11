@@ -1,5 +1,6 @@
 import type { SourceKind } from "../../src/shared/types";
 import type { RawItem } from "../feed-xml";
+import { archive } from "./archive";
 import { bluesky } from "./bluesky";
 import { bridged } from "./bridge";
 import { mastodon } from "./mastodon";
@@ -9,7 +10,7 @@ import { website } from "./website";
 import { youtube } from "./youtube";
 
 export type Provider = (url: string) => Promise<RawItem[]>;
-export type ProviderRegistry = Record<SourceKind, Provider>;
+export type ProviderRegistry = Record<SourceKind, Provider> & { archive: Provider };
 
 export const providers: ProviderRegistry = {
   youtube,
@@ -20,4 +21,5 @@ export const providers: ProviderRegistry = {
   mastodon,
   twitter: bridged("RSS_BRIDGE"),
   facebook: bridged("RSS_BRIDGE_FACEBOOK"),
+  archive,
 };

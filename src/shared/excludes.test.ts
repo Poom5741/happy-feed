@@ -4,7 +4,7 @@ import { isExcluded, type ExcludeId } from "./excludes";
 const ai = new Set<ExcludeId>(["ai"]);
 
 test("the AI preset hides posts that mention AI in the title or summary", () => {
-  expect(isExcluded({ title: "No AI. Build 'cat' in C" }, ai)).toBe(true);
+  expect(isExcluded({ title: "Build 'cat' in C, the AI way" }, ai)).toBe(true);
   expect(isExcluded({ title: "Dispatch 020", summary: "Early AI-generated sketches" }, ai)).toBe(true);
   expect(isExcluded({ title: "On artificial intelligence and craft" }, ai)).toBe(true);
   expect(isExcluded({ title: "Notes on Super  Intelligence" }, ai)).toBe(true);

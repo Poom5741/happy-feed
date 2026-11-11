@@ -11,3 +11,12 @@ export async function fetchText(url: string): Promise<string> {
   if (!response.ok) throw new Error(`HTTP ${response.status} from ${url}`);
   return response.text();
 }
+
+export async function fetchJson<T = unknown>(url: string): Promise<T> {
+  const response = await fetch(url, {
+    headers: { "user-agent": USER_AGENT, accept: "application/json" },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status} from ${url}`);
+  return (await response.json()) as T;
+}

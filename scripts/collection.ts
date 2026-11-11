@@ -5,6 +5,7 @@ export type Entry = {
   description?: string;
   tags: string[];
   sources: Partial<Record<SourceKind, string>>;
+  archive?: string;
 };
 
 export type Collection = {
@@ -15,7 +16,7 @@ export type Collection = {
 };
 
 const METADATA_KEYS = new Set(["name", "description", "mute"]);
-const ENTRY_KEYS = new Set<string>(["name", "description", "tags", ...SOURCE_KINDS]);
+const ENTRY_KEYS = new Set<string>(["name", "description", "tags", "archive", ...SOURCE_KINDS]);
 
 export function parseCollection(raw: unknown, file: string): Collection {
   const fail = (path: string, message: string): never => {
@@ -46,6 +47,7 @@ export function parseCollection(raw: unknown, file: string): Collection {
         description: optionalString(entry.description, `${label}.description`, fail),
         tags: stringArray(entry.tags, `${label}.tags`, fail),
         sources,
+        archive: entry.archive === undefined ? undefined : url(entry.archive, `${label}.archive`, fail),
       };
     }),
   };

@@ -42,3 +42,11 @@ test("accepts the real collections", async () => {
     expect(parseCollection(await Bun.file(file).json(), file).entries.length).toBeGreaterThan(0);
   }
 });
+
+test("accepts an archive page URL on an entry", () => {
+  const parsed = parseCollection(
+    { metadata: { name: "x" }, entries: [{ name: "G", rss: "https://example.com/feed.xml", archive: "https://example.com/" }] },
+    "test.json",
+  );
+  expect(parsed.entries[0]!.archive).toBe("https://example.com/");
+});
