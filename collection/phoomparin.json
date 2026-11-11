@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "name": "Poom's Faves",
+    "description": "Poom's favourite tech content creators"
+  },
+  "entries": [
+    { "name": "LaurieWired", "twitter": "https://x.com/lauriewired" },
+    { "name": "Mitchell Hashimoto", "twitter": "https://x.com/mitchellh" },
+    { "name": "Hayyoth", "youtube": "https://www.youtube.com/@hayyoth-org" },
+    { "name": "Patt Vira", "youtube": "https://www.youtube.com/@pattvira" },
+    { "name": "Bisqwit", "youtube": "https://www.youtube.com/@Bisqwit" },
+    { "name": "Coding Train", "youtube": "https://www.youtube.com/@TheCodingTrain", "twitter": "https://x.com/thecodingtrain" },
+    { "name": "Inigo Quilez", "youtube": "https://www.youtube.com/@InigoQuilez" }
+  ]
+}
