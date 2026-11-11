@@ -1,7 +1,8 @@
 {
   "metadata": {
     "name": "Poom's Faves",
-    "description": "Poom's favourite tech content creators"
+    "description": "Poom's favourite tech content creators",
+    "mute": ["politics", "election", "trump", "AI psychosis"]
   },
   "entries": [
     { "name": "LaurieWired", "twitter": "https://x.com/lauriewired", "tags": ["Computer Science"] },
