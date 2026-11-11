@@ -1,5 +1,5 @@
 // Ordered so neighbours contrast: a small tag set walks this list and never lands on three warm hues.
-export const HUES = ["sky", "sun", "berry", "mint", "grape", "tangerine"] as const;
+export const HUES = ["sky", "sun", "berry", "mint", "grape", "tangerine", "teal", "lime"] as const;
 export type Hue = (typeof HUES)[number];
 
 function hash(text: string): number {

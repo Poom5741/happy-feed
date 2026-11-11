@@ -35,6 +35,12 @@
   --berry-wash: #ffe0eb;
   --berry-solid: #ff5c93;
   --berry-ink: #84143f;
+  --teal-wash: #d4f4f6;
+  --teal-solid: #1fbccb;
+  --teal-ink: #0b5560;
+  --lime-wash: #ebf7d3;
+  --lime-solid: #8fce2e;
+  --lime-ink: #3b5a0a;
 
   --display: "Bricolage Grotesque", ui-rounded, system-ui, sans-serif;
   --reading: "Literata", Georgia, serif;
@@ -79,6 +85,12 @@
     --berry-wash: #36192a;
     --berry-solid: #ff79a6;
     --berry-ink: #ffcadb;
+    --teal-wash: #13303a;
+    --teal-solid: #3fd3df;
+    --teal-ink: #bff1f5;
+    --lime-wash: #22301a;
+    --lime-solid: #a6e05a;
+    --lime-ink: #def7b8;
     color-scheme: dark;
   }
 }
@@ -117,6 +129,12 @@
   --berry-wash: #36192a;
   --berry-solid: #ff79a6;
   --berry-ink: #ffcadb;
+  --teal-wash: #13303a;
+  --teal-solid: #3fd3df;
+  --teal-ink: #bff1f5;
+  --lime-wash: #22301a;
+  --lime-solid: #a6e05a;
+  --lime-ink: #def7b8;
   color-scheme: dark;
 }
 
@@ -126,6 +144,8 @@
 [data-hue="sky"] { --wash-base: var(--sky-wash); --wash: var(--sky-wash); --solid: var(--sky-solid); --ink: var(--sky-ink); }
 [data-hue="grape"] { --wash-base: var(--grape-wash); --wash: var(--grape-wash); --solid: var(--grape-solid); --ink: var(--grape-ink); }
 [data-hue="berry"] { --wash-base: var(--berry-wash); --wash: var(--berry-wash); --solid: var(--berry-solid); --ink: var(--berry-ink); }
+[data-hue="teal"] { --wash-base: var(--teal-wash); --wash: var(--teal-wash); --solid: var(--teal-solid); --ink: var(--teal-ink); }
+[data-hue="lime"] { --wash-base: var(--lime-wash); --wash: var(--lime-wash); --solid: var(--lime-solid); --ink: var(--lime-ink); }
 
 *,
 *::before,

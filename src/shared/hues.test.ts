@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test";
 import { assignHues, HUES } from "./hues";
 
-test("up to six tags each get a different hue", () => {
-  const tags = ["Coding", "Creative Coding", "HCI", "Computer Science", "Music", "Art"];
+test("up to eight tags each get a different hue", () => {
+  const tags = ["Coding", "Computer Science", "Creative Coding", "Design", "HCI", "Math", "Play", "STEM"];
   expect(new Set(assignHues(tags).values()).size).toBe(HUES.length);
 });
 

@@ -41,6 +41,12 @@ colors:
   berry-wash: "#ffe0eb"
   berry-solid: "#ff5c93"
   berry-ink: "#84143f"
+  teal-wash: "#d4f4f6"
+  teal-solid: "#1fbccb"
+  teal-ink: "#0b5560"
+  lime-wash: "#ebf7d3"
+  lime-solid: "#8fce2e"
+  lime-ink: "#3b5a0a"
 typography:
   display:
     fontFamily: "Bricolage Grotesque, ui-rounded, system-ui, sans-serif"
@@ -187,14 +193,14 @@ components:
 
 **Creative North Star: "The Tile Box"**
 
-Happy Feed is a box of colorful index tiles. Every tag owns a hue, and every card says up front whether it is something to watch or something to read. The ground is quiet (a cool lilac-white by day, a deep violet night after dark), so the six tag hues carry the cheer. Everything is chunky and rounded and drawn with a soft hand. Nibble's category-colored tiles and Pi's warm mixed card shapes are the references.
+Happy Feed is a box of colorful index tiles. Every tag owns a hue, and every card says up front whether it is something to watch or something to read. The ground is quiet (a cool lilac-white by day, a deep violet night after dark), so the eight tag hues carry the cheer. Everything is chunky and rounded and drawn with a soft hand. Nibble's category-colored tiles and Pi's warm mixed card shapes are the references.
 
 Density is relaxed: one column on a phone, used one-handed in bed, with generous gaps between cards. On desktop a sticky rail holds the controls and the feed becomes a grid of tiles. The sprout mascot appears in the masthead and again at the stopping points ("caught up", "that's everything", empty and error states), so the moments where the feed ends feel friendly.
 
 Light and dark are equal citizens. A header toggle switches between them and there is no settings screen. The voice is warm and never alarmed: no red warnings, no badges asking for attention.
 
 **Key Characteristics:**
-- Six tag hues (sun, tangerine, mint, sky, grape, berry), each with a wash, a solid and an ink.
+- Eight tag hues (sun, tangerine, mint, sky, grape, berry, teal, lime), each with a wash, a solid and an ink.
 - Watch and read cards have different anatomy, not only a different label.
 - Two voices: Bricolage Grotesque for the UI and watch titles, Literata for reading.
 - Pill and 24px-tile geometry everywhere, with drawn icons on a 2px round stroke.
@@ -202,7 +208,7 @@ Light and dark are equal citizens. A header toggle switches between them and the
 
 ## Colors
 
-A quiet lilac or violet ground under six bright tag hues, with one violet accent reserved for the active control.
+A quiet lilac or violet ground under eight bright tag hues, with one violet accent reserved for the active control.
 
 ### Primary
 - **Electric Violet** (accent; night: night-accent): fills the active format tab and the one action button inside a moment. It also sets the focus ring. It is never used for content.
@@ -215,6 +221,8 @@ Each hue is a triple. The **wash** is the tile and chip-selected background. The
 - **Sky** (sky-wash / sky-solid / sky-ink)
 - **Grape** (grape-wash / grape-solid / grape-ink)
 - **Berry** (berry-wash / berry-solid / berry-ink)
+- **Teal** (teal-wash / teal-solid / teal-ink)
+- **Lime** (lime-wash / lime-solid / lime-ink)
 
 ### Mascot
 - **Sunny** with **Sunny Ink**: the sprout's face. Sunny is also the text-selection highlight.
@@ -230,7 +238,7 @@ Each hue is a triple. The **wash** is the tile and chip-selected background. The
 - **Ink on Solid** (fixed in both themes): text and icons on any tag solid (format pill, play button, monogram). The solids are bright in both themes, so this dark ink does not flip.
 
 ### Named Rules
-**The Hue Owns the Card Rule.** A card takes the hue of its first tag, falling back to a hash of the author. Tags are assigned hues in sorted order through the sequence sky, sun, berry, mint, grape, tangerine, so neighbors contrast and a small tag set never lands on three warm hues in a row. Never pick a hue by hand for a single card.
+**The Hue Owns the Card Rule.** A card takes the hue of its first tag, falling back to a hash of the author. Tags are assigned hues in sorted order through the sequence sky, sun, berry, mint, grape, tangerine, teal, lime, so neighbors contrast and a small tag set never lands on three warm hues in a row. Never pick a hue by hand for a single card.
 
 **The Accent Is a Control Rule.** Electric Violet marks only the selected tab, the moment action and focus. Content gets its color from the tag hues and never from the accent.
 
