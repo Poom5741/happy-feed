@@ -1,6 +1,17 @@
-export type SourceKind = "youtube" | "rss" | "website" | "twitter" | "facebook";
+export type SourceKind = "youtube" | "rss" | "substack" | "website" | "twitter" | "facebook";
 
-export const SOURCE_KINDS: readonly SourceKind[] = ["youtube", "rss", "website", "twitter", "facebook"];
+export const SOURCE_KINDS: readonly SourceKind[] = ["youtube", "rss", "substack", "website", "twitter", "facebook"];
+
+export type Format = "watch" | "read" | "post";
+
+export const FORMAT_OF: Record<SourceKind, Format> = {
+  youtube: "watch",
+  rss: "read",
+  substack: "read",
+  website: "read",
+  twitter: "post",
+  facebook: "post",
+};
 
 export type FeedItem = {
   id: string;

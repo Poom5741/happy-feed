@@ -21,6 +21,7 @@ const noProvider = async (): Promise<RawItem[]> => {
 const registry = (rss: RawItem[]): ProviderRegistry => ({
   rss: async () => rss,
   youtube: noProvider,
+  substack: noProvider,
   website: noProvider,
   twitter: noProvider,
   facebook: noProvider,

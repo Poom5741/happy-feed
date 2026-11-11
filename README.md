@@ -30,7 +30,7 @@ Every `collection/*.json` file is loaded. Unknown keys and bad URLs fail the bui
       "tags": ["Creative Coding"],      // filter chips
       "youtube": "https://www.youtube.com/@TheCodingTrain",
       "twitter": "https://x.com/thecodingtrain"
-      // also: "rss", "website", "facebook". An entry needs at least one.
+      // also: "rss", "substack", "website", "facebook". An entry needs at least one.
     }
   ]
 }
@@ -44,6 +44,7 @@ Each source keeps its newest 30 posts from the past 365 days.
 | --- | --- | --- |
 | `youtube` | Resolves a `@handle` to its channel id from the channel page (cached in `.cache/youtube-ids.json`), then reads the channel's Atom feed. `/channel/UC…` URLs skip the lookup. | YouTube's feed holds only the latest 15 videos, Shorts included. |
 | `rss` | Reads RSS 2.0 or Atom. The image comes from `media:thumbnail`, an image enclosure, or the first `<img>` in the content. | |
+| `substack` | Reads the publication's `/feed`. Works for `*.substack.com` and custom domains. | Paywalled posts only show their preview. |
 | `website` | Finds `<link rel="alternate" type="application/rss+xml">` (or Atom) on the page and reads that feed. | Fails when the site advertises no feed. Use `rss` with the feed URL instead. |
 | `twitter` | Reads `RSS_BRIDGE` with `{handle}` replaced, such as `https://rsshub.example.com/twitter/user/{handle}`. | No free public source exists, so without a bridge these entries are skipped. |
 | `facebook` | Same, through `RSS_BRIDGE_FACEBOOK`. | Same. |
