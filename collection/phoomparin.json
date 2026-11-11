@@ -58,6 +58,23 @@
     { "name": "Stuff Made Here", "youtube": "https://www.youtube.com/@StuffMadeHere", "tags": ["STEM"] },
     { "name": "Technology Connections", "youtube": "https://www.youtube.com/@TechnologyConnections", "tags": ["Design"] },
     { "name": "Razbuten", "youtube": "https://www.youtube.com/@Razbuten", "tags": ["Design"] },
-    { "name": "Noclip", "youtube": "https://www.youtube.com/@NoclipDocs", "tags": ["Design"] }
+    { "name": "Noclip", "youtube": "https://www.youtube.com/@NoclipDocs", "tags": ["Design"] },
+    { "name": "Andy Matuschak", "bluesky": "https://bsky.app/profile/andymatuschak.org", "tags": ["HCI"] },
+    { "name": "Omar Rizwan", "bluesky": "https://bsky.app/profile/omar.website", "tags": ["HCI"] },
+    { "name": "Alexander Obenauer", "bluesky": "https://bsky.app/profile/alexanderobenauer.com", "tags": ["HCI"] },
+    { "name": "Joshua Horowitz", "bluesky": "https://bsky.app/profile/joshuahhh.com", "tags": ["HCI"] },
+    { "name": "Orion Reed", "bluesky": "https://bsky.app/profile/orionreed.com", "tags": ["HCI"] },
+    { "name": "Szymon Kaliski", "rss": "https://szymonkaliski.com/feed.xml", "tags": ["HCI"] },
+    { "name": "Amelia Wattenberger", "rss": "https://www.wattenberger.com/rss.xml", "tags": ["HCI"] },
+    { "name": "Gordon Brander", "description": "Squishy Computer", "rss": "https://newsletter.squishy.computer/feed", "tags": ["HCI"] },
+    { "name": "Kartik Agaram", "rss": "https://akkartik.name/feed", "tags": ["HCI"] },
+    { "name": "Hundred Rabbits", "rss": "https://100r.co/links/rss.xml", "tags": ["HCI"] },
+    { "name": "Lu Wilson", "description": "TodePond", "rss": "https://www.todepond.com/feed/index.xml", "youtube": "https://www.youtube.com/@TodePond", "tags": ["HCI"] },
+    { "name": "Mary Rose Cook", "rss": "https://maryrosecook.com/blog/feed.xml", "tags": ["HCI"] },
+    { "name": "Malleable Systems Collective", "rss": "https://malleable.systems/blog/index.xml", "tags": ["HCI"] },
+    { "name": "Tomas Petricek", "rss": "https://tomasp.net/rss.xml", "tags": ["HCI"] },
+    { "name": "Jonathan Edwards", "rss": "https://alarmingdevelopment.org/?feed=rss2", "tags": ["HCI"] },
+    { "name": "Nicky Case", "rss": "https://blog.ncase.me/rss/", "tags": ["HCI"] },
+    { "name": "The Convivial Society", "description": "L.M. Sacasas", "substack": "https://theconvivialsociety.substack.com", "tags": ["HCI"] }
   ]
 }
