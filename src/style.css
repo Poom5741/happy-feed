@@ -249,6 +249,65 @@ button {
   transform: none;
 }
 
+.masthead-row {
+  gap: 8px;
+}
+
+.brand {
+  margin-right: auto;
+}
+
+.shelves {
+  display: flex;
+  gap: 8px;
+}
+
+.shelf-link {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: background-color 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+
+.shelf-link .label {
+  display: none;
+}
+
+.shelf-link .badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.shelf-link[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.shelf-link[aria-pressed="true"] .badge {
+  background: var(--sunny);
+  color: var(--sunny-ink);
+}
+
 /* Controls */
 
 .controls {
@@ -789,6 +848,89 @@ button {
   gap: 12px;
 }
 
+/* Favourite and done buttons sit above the stretched link. */
+
+.actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.act {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  color: var(--ink);
+  transition: background-color 0.25s var(--ease-out), color 0.25s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.act .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.act:hover {
+  transform: scale(1.08);
+}
+
+.act:active {
+  transform: scale(0.92);
+}
+
+.act-favourites[aria-pressed="true"] {
+  background: var(--berry-solid);
+  color: var(--ink-on-solid);
+}
+
+.act-archive[aria-pressed="true"] {
+  background: var(--mint-solid);
+  color: var(--ink-on-solid);
+}
+
+.watch .foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shelf-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shelf-head h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.shelf-head .count {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.button.quiet {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
 /* Caught up and the end */
 
 .moment {
@@ -974,6 +1116,42 @@ button {
   .masthead-row {
     padding-top: 32px;
     padding-bottom: 18px;
+  }
+
+  .masthead-row {
+    flex-wrap: wrap;
+  }
+
+  .shelves {
+    order: 3;
+    flex-basis: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 14px;
+  }
+
+  .shelf-link {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    width: auto;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-weight: 650;
+  }
+
+  .shelf-link .label {
+    display: inline;
+  }
+
+  .shelf-link .badge {
+    position: static;
+    margin-left: auto;
+  }
+
+  .list > .shelf-head {
+    grid-column: 1 / -1;
   }
 
   .controls {

@@ -1,9 +1,11 @@
 import { EXCLUDE_IDS, EXCLUDE_PRESETS, isExcluded, type ExcludeId } from "./shared/excludes";
 import { assignHues, hueOf, type Hue } from "./shared/hues";
+import { emptyLibrary, isShelved, parseLibrary, shelfItems, SHELVES, toggleShelf, type Library, type Shelf } from "./shared/library";
 import { orderFeed } from "./shared/order";
 import { FORMAT_OF, type Feed, type FeedItem, type Format, type SourceKind } from "./shared/types";
 
-type Filters = { show: Format | ""; tags: Set<string>; kind: Set<string>; people: Set<string> };
+type View = "feed" | Shelf;
+type Filters = { view: View; show: Format | ""; tags: Set<string>; kind: Set<string>; people: Set<string> };
 type ChipGroup = "tags" | "kind" | "people";
 type Row = { type: "card"; item: FeedItem } | { type: "caught-up" };
 
@@ -32,12 +34,19 @@ const tabs = controls.querySelector<HTMLElement>(".tabs")!;
 const chips = controls.querySelector<HTMLElement>(".chips")!;
 const people = controls.querySelector<HTMLElement>(".people")!;
 const toggle = document.querySelector<HTMLButtonElement>(".theme-toggle")!;
+const shelfLinks = [...document.querySelectorAll<HTMLButtonElement>(".shelf-link")];
+const SHELF_COPY: Record<Shelf, { title: string; empty: string }> = {
+  favourites: { title: "Favourites", empty: "Tap the heart on anything you love and it will wait for you here." },
+  archive: { title: "Archive", empty: "Mark posts as read or watched and they rest here, out of your feed." },
+};
+const DONE_LABEL: Record<Format, string> = { watch: "watched", read: "read", post: "read" };
 const systemDark = matchMedia("(prefers-color-scheme: dark)");
 
 let feed: Feed;
 let hues = new Map<string, Hue>();
 let hidden = loadHidden();
 let hiddenCount = 0;
+let library = loadLibrary();
 let rows: Row[] = [];
 let rendered = 0;
 
@@ -73,6 +82,14 @@ toggle.addEventListener("click", () => {
   } catch {}
   syncTheme();
 });
+
+for (const link of shelfLinks) {
+  link.addEventListener("click", () => {
+    const shelf = link.dataset.shelf as Shelf;
+    const filters = readFilters();
+    writeFilters({ ...filters, view: filters.view === shelf ? "feed" : shelf });
+  });
+}
 
 void start();
 
@@ -124,6 +141,22 @@ function toggleHidden(id: ExcludeId): void {
   render();
 }
 
+function loadLibrary(): Library {
+  try {
+    return parseLibrary(JSON.parse(localStorage.getItem("library:v1") ?? "null"));
+  } catch {
+    return emptyLibrary();
+  }
+}
+
+function saveLibrary(next: Library): void {
+  library = next;
+  try {
+    localStorage.setItem("library:v1", JSON.stringify(next));
+  } catch {}
+  renderShelfLinks(readFilters().view);
+}
+
 function hueFor(item: FeedItem): Hue {
   const tag = item.tags[0];
   return (tag && hues.get(tag)) || hueOf(item.author);
@@ -133,11 +166,15 @@ function readFilters(): Filters {
   const params = new URLSearchParams(location.search);
   const set = (key: string) => new Set((params.get(key) ?? "").split(",").filter(Boolean));
   const show = params.get("show");
-  return { show: show && show in FORMATS ? (show as Format) : "", tags: set("tags"), kind: set("kind"), people: set("people") };
+  const view = params.get("view");
+  return {
+    view: SHELVES.includes(view as Shelf) ? (view as Shelf) : "feed",
+    show: show && show in FORMATS ? (show as Format) : "", tags: set("tags"), kind: set("kind"), people: set("people") };
 }
 
 function writeFilters(filters: Filters): void {
   const params = new URLSearchParams();
+  if (filters.view !== "feed") params.set("view", filters.view);
   if (filters.show) params.set("show", filters.show);
   if (filters.tags.size > 0) params.set("tags", [...filters.tags].join(","));
   if (filters.kind.size > 0) params.set("kind", [...filters.kind].join(","));
@@ -157,25 +194,33 @@ function matchesChips(item: FeedItem, filters: Filters): boolean {
 
 function render(): void {
   const filters = readFilters();
-  const kept = feed.items.filter((item) => !isExcluded(item, hidden));
-  hiddenCount = feed.items.length - kept.length;
-  const chipMatches = kept.filter((item) => matchesChips(item, filters));
+  const { view } = filters;
+  renderShelfLinks(view);
+
+  const chipMatches = viewItems(filters);
   renderControls(filters, chipMatches);
 
   const visible = chipMatches.filter((item) => !filters.show || FORMAT_OF[item.kind] === filters.show);
-  const { ordered, freshCount } = orderFeed(visible, new Date());
-  rows = ordered.map((item): Row => ({ type: "card", item }));
-  if (freshCount > 0 && freshCount < ordered.length) rows.splice(freshCount, 0, { type: "caught-up" });
+  if (view === "feed") {
+    const { ordered, freshCount } = orderFeed(visible, new Date());
+    rows = ordered.map((item): Row => ({ type: "card", item }));
+    if (freshCount > 0 && freshCount < ordered.length) rows.splice(freshCount, 0, { type: "caught-up" });
+  } else {
+    rows = visible.map((item): Row => ({ type: "card", item }));
+  }
   rendered = 0;
-  list.replaceChildren();
+  list.replaceChildren(...(view === "feed" ? [] : [shelfHead(view, Object.keys(library[view]).length)]));
 
   if (rows.length === 0) {
+    const shelfEmpty = view !== "feed" && Object.keys(library[view]).length === 0;
     list.append(
       moment({
         mood: "sleepy",
-        title: "Nothing here yet",
-        body: "No posts match these filters.",
-        action: ["Show everything", () => writeFilters({ show: "", tags: new Set(), kind: new Set(), people: new Set() })],
+        title: shelfEmpty ? `Your ${SHELF_COPY[view].title.toLowerCase()} is empty` : "Nothing here yet",
+        body: shelfEmpty ? SHELF_COPY[view].empty : "No posts match these filters.",
+        action: shelfEmpty
+          ? ["Back to the feed", () => writeFilters({ ...filters, view: "feed" })]
+          : ["Show everything", () => writeFilters({ view, show: "", tags: new Set(), kind: new Set(), people: new Set() })],
       }),
     );
     return;
@@ -183,11 +228,50 @@ function render(): void {
   appendPage();
 }
 
+// The feed hides archived posts and excluded topics; a shelf shows exactly what you saved.
+function viewItems(filters: Filters): FeedItem[] {
+  const { view } = filters;
+  const source =
+    view === "feed"
+      ? feed.items.filter((item) => !isShelved(library, "archive", item.id))
+      : shelfItems(library, view, new Map(feed.items.map((item) => [item.id, item])));
+  const kept = view === "feed" ? source.filter((item) => !isExcluded(item, hidden)) : source;
+  hiddenCount = source.length - kept.length;
+  return kept.filter((item) => matchesChips(item, filters));
+}
+
+function refreshControls(): void {
+  const filters = readFilters();
+  renderShelfLinks(filters.view);
+  renderControls(filters, viewItems(filters));
+}
+
+function renderShelfLinks(view: View): void {
+  for (const link of shelfLinks) {
+    const shelf = link.dataset.shelf as Shelf;
+    const count = Object.keys(library[shelf]).length;
+    const badge = link.querySelector<HTMLElement>(".badge")!;
+    badge.textContent = String(count);
+    badge.hidden = count === 0;
+    link.setAttribute("aria-pressed", String(view === shelf));
+    link.setAttribute("aria-label", `${SHELF_COPY[shelf].title}, ${count} saved`);
+  }
+}
+
+function shelfHead(shelf: Shelf, count: number): HTMLElement {
+  const back = h("button", { type: "button", className: "button quiet" }, ["Back to the feed"]);
+  back.addEventListener("click", () => writeFilters({ ...readFilters(), view: "feed" }));
+  return h("header", { className: "shelf-head" }, [
+    h("h2", {}, [SHELF_COPY[shelf].title, h("span", { className: "count" }, [String(count)])]),
+    back,
+  ]);
+}
+
 function appendPage(): void {
   const page = rows.slice(rendered, rendered + PAGE_SIZE);
   list.append(...page.map((row) => (row.type === "card" ? renderCard(row.item) : renderCaughtUp())));
   rendered += page.length;
-  if (rendered >= rows.length) list.append(renderEnd());
+  if (rendered >= rows.length && readFilters().view === "feed") list.append(renderEnd());
 }
 
 function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
@@ -262,7 +346,8 @@ function byline(item: FeedItem, lead: Node[] = []): HTMLElement {
   return h("header", { className: "byline" }, [
     ...lead,
     h("span", { className: "author" }, [item.author]),
-    h("span", { className: "format" }, [icon(FORMATS[format].icon, true), FORMATS[format].label]),
+    // The thumbnail and play button already say "video", so watch cards skip the pill.
+    ...(format === "watch" ? [] : [h("span", { className: "format" }, [icon(FORMATS[format].icon, true), FORMATS[format].label])]),
     h("time", { dateTime: item.publishedAt, title: new Date(item.publishedAt).toLocaleString() }, [ago(item.publishedAt)]),
   ]);
 }
@@ -276,7 +361,70 @@ function renderCard(item: FeedItem): HTMLElement {
   const card =
     format === "watch" && item.image ? renderWatch(item) : format === "post" ? renderPost(item) : renderRead(item);
   card.dataset.hue = hueFor(item);
+  card.dataset.id = item.id;
   return card;
+}
+
+function actions(item: FeedItem): HTMLElement {
+  const done = DONE_LABEL[FORMAT_OF[item.kind]];
+  const button = (shelf: Shelf, iconId: string, on: string, off: string) => {
+    const active = isShelved(library, shelf, item.id);
+    const el = h("button", { type: "button", className: `act act-${shelf}`, title: active ? on : off, ariaLabel: active ? on : off }, [
+      icon(iconId, shelf === "favourites" && active),
+    ]);
+    el.setAttribute("aria-pressed", String(active));
+    el.addEventListener("click", () => shelve(item, shelf));
+    return el;
+  };
+  return h("div", { className: "actions" }, [
+    button("favourites", "i-heart", "Remove from favourites", "Add to favourites"),
+    button("archive", "i-check", `Mark as not ${done}`, `Mark as ${done}`),
+  ]);
+}
+
+function shelve(item: FeedItem, shelf: Shelf): void {
+  const wasOn = isShelved(library, shelf, item.id);
+  saveLibrary(toggleShelf(library, shelf, item, new Date()));
+  const view = readFilters().view;
+  const card = list.querySelector<HTMLElement>(`.card[data-id="${CSS.escape(item.id)}"]`);
+  const leaves = (view === "feed" && shelf === "archive") || (view === shelf && wasOn);
+  if (card && leaves) collapseOut(card);
+  else card?.replaceWith(renderCard(item));
+  refreshControls();
+}
+
+// The card fades out, then the cards after it glide into the gap (a FLIP from their old positions).
+function collapseOut(card: HTMLElement): void {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    card.remove();
+    return;
+  }
+  card.style.pointerEvents = "none";
+  const exit = card.animate(
+    [
+      { opacity: 1, transform: "scale(1)" },
+      { opacity: 0, transform: "scale(0.94)" },
+    ],
+    { duration: 220, easing: "cubic-bezier(0.4, 0, 1, 1)", fill: "forwards" },
+  );
+  exit.addEventListener("finish", () => {
+    const followers: HTMLElement[] = [];
+    for (let el = card.nextElementSibling; el && followers.length < 24; el = el.nextElementSibling) {
+      if (el instanceof HTMLElement) followers.push(el);
+    }
+    const before = followers.map((el) => el.getBoundingClientRect());
+    card.remove();
+    followers.forEach((el, i) => {
+      const after = el.getBoundingClientRect();
+      const dx = before[i]!.left - after.left;
+      const dy = before[i]!.top - after.top;
+      if (dx === 0 && dy === 0) return;
+      el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }], {
+        duration: 450,
+        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+      });
+    });
+  });
 }
 
 function renderWatch(item: FeedItem): HTMLElement {
@@ -303,7 +451,7 @@ function renderWatch(item: FeedItem): HTMLElement {
     h("div", { className: "body" }, [
       h("h2", { className: "title" }, [h("a", { href: item.url, target: "_blank", rel: "noopener", className: "plain" }, [item.title])]),
       byline(item),
-      ...tagList(item),
+      h("footer", { className: "foot" }, [h("div", {}, tagList(item)), actions(item)]),
     ]),
   ]);
 }
@@ -325,6 +473,7 @@ function renderRead(item: FeedItem): HTMLElement {
     ]),
     h("footer", { className: "foot" }, [
       h("div", {}, tagList(item)),
+      actions(item),
       h("span", { className: "go", ariaHidden: "true" }, [icon("i-arrow")]),
     ]),
   ]);
@@ -345,6 +494,7 @@ function renderPost(item: FeedItem): HTMLElement {
     ...(picture ? [picture] : []),
     h("footer", { className: "foot" }, [
       h("div", {}, tagList(item)),
+      actions(item),
       h("span", { className: "go", ariaHidden: "true" }, [icon("i-arrow")]),
     ]),
   ]);

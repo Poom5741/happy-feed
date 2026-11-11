@@ -295,6 +295,9 @@ The form language is chunky and rounded. Every control is a full pill: tabs, chi
 - A wash tile with 24px corners and 18px padding (22px/24px at 720px and up). The byline leads with a 32px monogram (the author's initial on the hue's solid). The Literata title sits beside an optional 76px (96px) inline thumbnail. The summary below is clamped to four lines. The footer has the tags and a 32px circular "go" arrow, which rotates 45 degrees on hover. The whole tile is the link, and focus outlines the whole tile.
 - **Post card:** for Bluesky and Mastodon. A surface-colored speech bubble (24px corners, 6px bottom-left) that leads with the post text in Bricolage 500 at 1.125rem, then an optional image, then tags. Words lead, because social posts have no title.
 - **People chips:** a second chip row with a round monogram in the person's hue. It filters by author and combines with tags and sources.
+- **Card actions:** a heart (favourite) and a check (mark read or watched) in each card's footer, as 36px circles on a 12% ink tint. A pressed heart fills berry, a pressed check fills mint. Video cards carry no format pill; the thumbnail already says "video".
+- **Leaving a list:** a card that leaves the current list fades and shrinks out (220ms), then the cards after it glide into the gap (450ms, out-expo). There is no undo bar; the Archive is the undo.
+- **List links:** Favourites and Archive sit in the masthead as 44px circles with an accent count badge on phones, and as labeled pills in the desktop rail.
 - **Hide chip:** a neutral chip with an eye-off icon that leads the chip row. It is labeled "No <topic>" and fills with the text color when on, so it reads as a setting rather than a tag.
 - **Jewel variant:** with no image, the tile deepens to the jewel mix. The monogram and format pill invert to on-jewel, and tags and the go arrow sit on a 14% on-jewel tint.
 
