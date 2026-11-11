@@ -75,6 +75,8 @@
     { "name": "Tomas Petricek", "rss": "https://tomasp.net/rss.xml", "tags": ["HCI"] },
     { "name": "Jonathan Edwards", "rss": "https://alarmingdevelopment.org/?feed=rss2", "tags": ["HCI"] },
     { "name": "Nicky Case", "rss": "https://blog.ncase.me/rss/", "tags": ["HCI"] },
-    { "name": "The Convivial Society", "description": "L.M. Sacasas", "substack": "https://theconvivialsociety.substack.com", "tags": ["HCI"] }
+    { "name": "The Convivial Society", "description": "L.M. Sacasas", "substack": "https://theconvivialsociety.substack.com", "tags": ["HCI"] },
+    { "name": "Computer History Museum", "youtube": "https://www.youtube.com/@ComputerHistory", "tags": ["STEM"] },
+    { "name": "The British Museum", "youtube": "https://www.youtube.com/@britishmuseum", "tags": ["Design"] }
   ]
 }
