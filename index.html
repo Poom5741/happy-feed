@@ -2,31 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="A calm feed of creators Poom chose." />
+    <meta name="theme-color" content="#f6f4fd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14122a" media="(prefers-color-scheme: dark)" />
+    <meta name="description" content="A cheerful feed of creators Poom chose." />
     <title>Happy Feed</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>" />
+    <script>
+      try {
+        const saved = localStorage.getItem("theme");
+        if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
+      } catch {}
+    </script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400&display=swap"
+    />
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <header class="bar">
-      <div class="bar-inner">
-        <h1 class="brand">Happy Feed</h1>
-        <nav class="filters" aria-label="Filters" hidden>
-          <div class="chips" role="group" aria-label="Tags" data-group="tags"></div>
-          <div class="chips" role="group" aria-label="Sources" data-group="kind"></div>
-        </nav>
+    <aside class="rail">
+    <header class="masthead">
+      <div class="masthead-row">
+        <a class="brand" href="./" aria-label="Happy Feed, show everything">
+          <svg class="sprout" viewBox="0 0 64 64" aria-hidden="true"><use href="#mascot" /></svg>
+          <span>Happy Feed</span>
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+          <svg viewBox="0 0 24 24" class="icon icon-sun" aria-hidden="true"><use href="#i-sun" /></svg>
+          <svg viewBox="0 0 24 24" class="icon icon-moon" aria-hidden="true"><use href="#i-moon" /></svg>
+        </button>
       </div>
     </header>
+    <nav class="controls" aria-label="Filters" hidden>
+      <div class="tabs" role="group" aria-label="Show"></div>
+      <div class="chips" role="group" aria-label="Tags and sources"></div>
+    </nav>
+    </aside>
     <main class="column">
       <div class="list" aria-live="polite">
-        <div class="card skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
-        <div class="card skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
-        <div class="card skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="skeleton" data-hue="sky" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="skeleton" data-hue="sun" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="skeleton" data-hue="mint" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
       <div class="sentinel" aria-hidden="true"></div>
     </main>
+
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="mascot" viewBox="0 0 64 64">
+          <path d="M31 17C26 6 15 5 10 8c2 8 11 14 21 9Z" fill="var(--leaf)" style="transform-box: fill-box; transform-origin: 100% 100%; transform: rotate(calc(var(--wave, 0deg) * -1))" />
+          <path d="M33 17c4-11 15-13 21-10-2 9-11 15-21 10Z" fill="var(--leaf-2)" style="transform-box: fill-box; transform-origin: 0% 100%; transform: rotate(var(--wave, 0deg))" />
+          <circle cx="32" cy="38" r="21" fill="var(--sunny)" />
+          <g fill="var(--sunny-ink)">
+            <g style="opacity: var(--awake, 1)"><ellipse cx="24.5" cy="36" rx="2.6" ry="3.4" /><ellipse cx="39.5" cy="36" rx="2.6" ry="3.4" /></g>
+            <path style="opacity: calc(1 - var(--awake, 1))" d="M21.5 36.5q3 2.6 6 0M36.5 36.5q3 2.6 6 0" fill="none" stroke="var(--sunny-ink)" stroke-width="2.2" stroke-linecap="round" />
+            <path d="M26 44q6 5.5 12 0" fill="none" stroke="var(--sunny-ink)" stroke-width="2.6" stroke-linecap="round" />
+          </g>
+          <circle cx="19" cy="43" r="3.2" fill="var(--blush)" />
+          <circle cx="45" cy="43" r="3.2" fill="var(--blush)" />
+        </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" /></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" /></symbol>
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z" /></symbol>
+        <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></symbol>
+        <symbol id="i-all" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5" /></symbol>
+        <symbol id="i-tv" viewBox="0 0 24 24"><rect width="20" height="15" x="2" y="5" rx="4" /><path d="m10 9.5 5 3-5 3z" /></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></symbol>
+        <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+      </defs>
+    </svg>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
