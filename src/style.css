@@ -928,9 +928,10 @@ button {
   overflow-wrap: anywhere;
 }
 
+/* The same 16:9 frame as video thumbnails, so one portrait photo can't stretch its row. The viewer shows it whole. */
 .post-image {
   width: 100%;
-  max-height: 320px;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   object-fit: cover;
   background: var(--wash);
@@ -1702,6 +1703,14 @@ html:has(.viewer[open]) {
   .clear-chip {
     position: static;
     box-shadow: none;
+  }
+
+  /* In the grid a long post would set its whole row's height; the viewer has the full text. */
+  .post-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .people-section {
