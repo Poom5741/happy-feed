@@ -48,20 +48,20 @@ test("drops muted items case-insensitively by title or summary", async () => {
   expect(feed.items.map((item) => item.title)).toEqual(["Local-first software"]);
 });
 
-test("stamps author, kind and tags, drops old items, and collects provider errors", async () => {
-  const feed = await buildFeed([collection], registry([raw("old", "Ancient", 400), raw("new", "Fresh", 0)]), now);
+test("stamps author, kind and tags, keeps every item however old, and collects provider errors", async () => {
+  const feed = await buildFeed([collection], registry([raw("old", "Ancient", 4000), raw("new", "Fresh", 0)]), now);
   expect(feed.items).toEqual([
     expect.objectContaining({ title: "Fresh", kind: "rss", author: "Ink", tags: ["HCI"] }),
+    expect.objectContaining({ title: "Ancient" }),
   ]);
   expect(feed.tags).toEqual(["HCI"]);
   expect(feed.kinds).toEqual(["rss"]);
   expect(feed.errors).toEqual([{ entry: "Ink", kind: "twitter", message: "no bridge configured" }]);
 });
 
-test("keeps at most 30 items per source, newest first", async () => {
+test("keeps every item a source publishes, newest first", async () => {
   const many = Array.from({ length: 40 }, (_, i) => raw(`i${i}`, `Post ${i}`, i));
   const feed = await buildFeed([collection], registry(many), now);
-  expect(feed.items).toHaveLength(30);
-  expect(feed.items[0]?.title).toBe("Post 0");
-  expect(feed.items.at(-1)?.title).toBe("Post 29");
+  expect(feed.items).toHaveLength(40);
+  expect(feed.items[0]!.title).toBe("Post 0");
 });

@@ -2,9 +2,6 @@ import { SOURCE_KINDS, type Feed, type FeedError, type FeedItem, type SourceKind
 import type { Collection } from "./collection";
 import type { ProviderRegistry } from "./providers";
 
-const MAX_ITEMS_PER_SOURCE = 30;
-const MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
-
 export async function buildFeed(collections: Collection[], providers: ProviderRegistry, now: Date): Promise<Feed> {
   const errors: FeedError[] = [];
   const jobs = collections.flatMap((collection) =>
@@ -13,10 +10,7 @@ export async function buildFeed(collections: Collection[], providers: ProviderRe
         try {
           const raw = await providers[kind](url);
           return raw
-            .filter((item) => now.getTime() - Date.parse(item.publishedAt) <= MAX_AGE_MS)
             .filter((item) => !isMuted(item, collection.mute))
-            .sort(byNewest)
-            .slice(0, MAX_ITEMS_PER_SOURCE)
             .map((item) => ({ ...item, id: `${kind}:${item.id}`, kind, author: entry.name, tags: entry.tags }));
         } catch (error) {
           errors.push({ entry: entry.name, kind, message: error instanceof Error ? error.message : String(error) });

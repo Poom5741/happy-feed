@@ -36,7 +36,7 @@ Every `collection/*.json` file is loaded. Unknown keys and bad URLs fail the bui
 }
 ```
 
-Each source keeps its newest 30 posts from the past 365 days.
+Each source keeps every post its feed publishes, with no age cutoff, and the page loads them 20 at a time as you scroll.
 
 ## Providers
 
