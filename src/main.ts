@@ -326,13 +326,14 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
   tabs.replaceChildren(
     ...(["", ...formats] as const).map((format) => {
       const { label, icon: id } = format ? FORMATS[format] : { label: "All", icon: "i-all" };
-      const tab = h("button", { type: "button", className: "tab" }, [
+      const n = count(format);
+      const tab = h("button", { type: "button", className: "tab", title: `${label} (${n})`, ariaLabel: `${label}, ${n} post${n === 1 ? "" : "s"}` }, [
         icon(id),
-        label,
-        h("span", { className: "count" }, [String(count(format))]),
+        h("span", { className: "tab-label" }, [label]),
+        h("span", { className: "count" }, [String(n)]),
       ]);
       tab.setAttribute("aria-pressed", String(filters.show === format));
-      tab.disabled = filters.show !== format && count(format) === 0;
+      tab.disabled = filters.show !== format && n === 0;
       tab.addEventListener("click", () => writeFilters({ ...filters, show: format }));
       return tab;
     }),

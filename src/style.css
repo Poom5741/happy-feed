@@ -1486,7 +1486,7 @@ html:has(.viewer[open]) {
     order: 3;
     flex-basis: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     margin-top: 14px;
   }
@@ -1494,10 +1494,10 @@ html:has(.viewer[open]) {
   .shelf-link {
     display: flex;
     gap: 8px;
-    justify-content: flex-start;
+    justify-content: center;
     width: auto;
     height: 44px;
-    padding: 0 14px;
+    padding: 0 12px;
     border-radius: 999px;
     font-weight: 650;
   }
@@ -1506,9 +1506,16 @@ html:has(.viewer[open]) {
     display: inline;
   }
 
+  .shelf-link .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The rail scrolls, so it clips anything past its edge; keep the corner badge inside the pill's width. */
   .shelf-link .badge {
-    position: static;
-    margin-left: auto;
+    top: -7px;
+    right: 6px;
   }
 
   .viewer {
@@ -1542,21 +1549,26 @@ html:has(.viewer[open]) {
     background: none;
   }
 
-  .tabs {
-    grid-auto-flow: row;
-    border-radius: 24px;
-    padding: 6px;
-  }
-
+  /* Icons only in the rail: the label and count move to the tooltip and the accessible name. */
   .tab {
-    justify-content: flex-start;
-    min-height: 46px;
-    padding: 0 16px;
-    font-size: 1rem;
+    position: relative;
+    min-height: 44px;
+    padding: 0;
   }
 
+  .tab .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tab .tab-label,
   .tab .count {
-    margin-left: auto;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .chips {
