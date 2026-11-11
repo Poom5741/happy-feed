@@ -3,3 +3,7 @@ dist
 .cache
 public/feed.json
 .cloudflare
+
+# Agent skills are installed locally, not vendored (see README)
+.claude/skills/
+.claude/agents/

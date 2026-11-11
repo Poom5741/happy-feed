@@ -62,3 +62,15 @@ Deploy from your machine with `bun run deploy`. It fetches the feed, builds, and
 `.github/workflows/deploy.yml` does the same on every push to `main`, every 3 hours, and on demand, so the feed stays fresh. Set `RSS_BRIDGE` (and `RSS_BRIDGE_FACEBOOK`) as a repository secret or variable to turn on those sources.
 
 One-time setup for the workflow: add a `CLOUDFLARE_API_TOKEN` repository secret. Create the token with the "Edit Cloudflare Workers" template, scoped to this account and the `poom.dev` zone.
+
+## Agent skills
+
+This repo is built with [Claude Code](https://claude.com/claude-code) and a few agent skills. They are installed locally, not committed:
+
+- Cloudflare skills, pinned in `skills-lock.json`: `npx skills experimental_install`
+- [Impeccable](https://impeccable.style) design skill: `npx impeccable install`
+
+## License
+
+[MIT](LICENSE)
+
