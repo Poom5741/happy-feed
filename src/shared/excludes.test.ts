@@ -28,3 +28,7 @@ test("a No AI phrase in the summary does not rescue a post about AI", () => {
 test("nothing is hidden when no preset is active", () => {
   expect(isExcluded({ title: "AI everywhere" }, new Set())).toBe(false);
 });
+
+test("a calmer replacement title does not hide that the original was about AI", () => {
+  expect(isExcluded({ title: "How diffusion models make images", originalTitle: "AI Just Changed EVERYTHING" }, ai)).toBe(true);
+});

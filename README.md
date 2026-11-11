@@ -7,6 +7,7 @@ A calm, endless feed of creators I chose, served at https://feed.poom.dev. YouTu
 - **Favourites and Archive.** Marking a post read or watched moves it out of the feed. Both lists stay in your browser and don't sync between devices.
 - **In-app viewer** for Bluesky and Mastodon posts: full text and images, never replies.
 - **"You're all caught up"** after this week's posts, then the full archive below.
+- **Calmer YouTube titles and thumbnails** from [DeArrow](https://dearrow.ajay.app)'s community submissions, where they exist. Hover a title to see the original.
 
 ## Run it
 
@@ -52,7 +53,9 @@ An entry needs at least one source. Every post a source publishes is kept, with 
 | `bluesky` | `https://bsky.app/profile/<handle>` via the public API, no replies or reposts | Every post |
 | `mastodon` | `https://<server>/@<user>` via the server's API, no replies or boosts | Every post |
 
-API sources fall back to RSS if the API fails. A source that fails entirely lands in `feed.json`'s `errors`, and the rest still builds. `twitter` and `facebook` keys exist but need a self-hosted RSS bridge (`RSS_BRIDGE`, `RSS_BRIDGE_FACEBOOK`); no free route to X exists.
+Every request is retried once after a timeout, dropped connection, 429 or 5xx. API sources fall back to RSS if the API fails. A source that still fails lands in `feed.json`'s `errors`, and the rest builds.
+
+DeArrow lookups are cached in `.cache/dearrow.json`: new videos are re-checked every 6 hours, older ones every few days to a month. DeArrow's API and data are [CC BY-NC-SA 4.0](https://github.com/ajayyy/SponsorBlock/wiki/Database-and-API-License), credited at the end of the feed. `twitter` and `facebook` keys exist but need a self-hosted RSS bridge (`RSS_BRIDGE`, `RSS_BRIDGE_FACEBOOK`); no free route to X exists.
 
 ## Deploy
 

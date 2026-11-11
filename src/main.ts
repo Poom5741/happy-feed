@@ -539,14 +539,15 @@ function collapseOut(card: HTMLElement): void {
 
 function renderWatch(item: FeedItem): HTMLElement {
   const playable = item.videoId !== undefined;
-  const img = h("img", {
-    src: playable ? `https://i.ytimg.com/vi/${item.videoId}/hq720.jpg` : item.image!,
-    alt: "",
-    loading: "lazy",
-    decoding: "async",
-    referrerPolicy: "no-referrer",
+  // DeArrow frame first, then YouTube's sharp thumbnail, then whatever the feed carried.
+  const sources = [item.thumbnail, playable ? `https://i.ytimg.com/vi/${item.videoId}/hq720.jpg` : undefined, item.image].filter(
+    (src): src is string => !!src,
+  );
+  const img = h("img", { src: sources.shift()!, alt: "", loading: "lazy", decoding: "async", referrerPolicy: "no-referrer" });
+  img.addEventListener("error", () => {
+    const next = sources.shift();
+    if (next) img.src = next;
   });
-  if (playable) img.addEventListener("error", () => (img.src = item.image!), { once: true });
   const picture = [
     img,
     h("span", { className: "play", ariaHidden: "true" }, [icon("i-play", true)]),
@@ -559,7 +560,9 @@ function renderWatch(item: FeedItem): HTMLElement {
   return h("article", { className: "card watch" }, [
     thumb,
     h("div", { className: "body" }, [
-      h("h2", { className: "title" }, [h("a", { href: item.url, target: "_blank", rel: "noopener", className: "plain" }, [item.title])]),
+      h("h2", { className: "title" }, [
+        h("a", { href: item.url, target: "_blank", rel: "noopener", className: "plain", ...(item.originalTitle ? { title: `Original title: ${item.originalTitle}` } : {}) }, [item.title]),
+      ]),
       byline(item),
       h("footer", { className: "foot" }, [h("div", {}, tagList(item)), actions(item)]),
     ]),
@@ -773,6 +776,7 @@ function renderEnd(): HTMLElement {
     body: "You've seen it all. Go stretch, sip some water, or make something lovely.",
     fine: [
       `Updated ${ago(feed.generatedAt)}.`,
+      "Calmer YouTube titles and thumbnails from DeArrow (CC BY-NC-SA 4.0).",
       ...(hiddenCount > 0 ? [`${hiddenCount} post${hiddenCount === 1 ? "" : "s"} hidden by your filters.`] : []),
       ...(skipped > 0 ? [`${skipped} source${skipped === 1 ? "" : "s"} couldn't be reached.`] : []),
     ].join(" "),

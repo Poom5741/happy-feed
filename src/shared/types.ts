@@ -28,6 +28,10 @@ export type FeedItem = {
   id: string;
   kind: SourceKind;
   title: string;
+  // Set when a calmer community title replaced the original (DeArrow).
+  originalTitle?: string;
+  // A preferred thumbnail to show instead of the source's own, e.g. a DeArrow frame.
+  thumbnail?: string;
   url: string;
   summary?: string;
   image?: string;

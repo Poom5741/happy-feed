@@ -1,6 +1,7 @@
 import { Glob } from "bun";
 import { buildFeed } from "./aggregate";
 import { parseCollection } from "./collection";
+import { brandWithDeArrow } from "./dearrow";
 import { providers } from "./providers";
 
 const collections = await Promise.all(
@@ -10,6 +11,7 @@ const collections = await Promise.all(
 );
 
 const feed = await buildFeed(collections, providers, new Date());
+feed.items = await brandWithDeArrow(feed.items, new Date());
 await Bun.write("public/feed.json", JSON.stringify(feed));
 
 const counts = Map.groupBy(feed.items, (item) => `${item.author} (${item.kind})`);
