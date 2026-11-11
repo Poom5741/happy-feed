@@ -6,7 +6,7 @@ import { blueskyApiUrl, fromBluesky, fromMastodon, mastodonApiUrl, type PostView
 import { FORMAT_OF, type Feed, type FeedItem, type Format, type SourceKind } from "./shared/types";
 
 type View = "feed" | Shelf;
-type Filters = { view: View; show: Format | ""; tags: Set<string>; kind: Set<string>; people: Set<string> };
+type Filters = { view: View; show: Format | ""; tags: Set<string>; kind: Set<string>; people: Set<string>; mode: "feed" | "shorts" };
 type ChipGroup = "tags" | "kind" | "people";
 type Row = { type: "card"; item: FeedItem } | { type: "caught-up" };
 
@@ -60,6 +60,11 @@ let hiddenCount = 0;
 let library = loadLibrary();
 let rows: Row[] = [];
 let rendered = 0;
+const SHORTS_TAG = "Shorts";
+let shortsRows: FeedItem[] = [];
+let shortsRendered = 0;
+let shortsObserver: IntersectionObserver | null = null;
+let shortsMuted = true;
 
 const observer = new IntersectionObserver(
   ([entry]) => {
@@ -221,7 +226,8 @@ function readFilters(): Filters {
   const view = params.get("view");
   return {
     view: SHELVES.includes(view as Shelf) ? (view as Shelf) : "feed",
-    show: show && show in FORMATS ? (show as Format) : "", tags: set("tags"), kind: set("kind"), people: set("people") };
+    show: show && show in FORMATS ? (show as Format) : "", tags: set("tags"), kind: set("kind"), people: set("people"),
+    mode: params.get("mode") === "shorts" ? "shorts" : "feed" };
 }
 
 function writeFilters(filters: Filters): void {
@@ -231,6 +237,7 @@ function writeFilters(filters: Filters): void {
   if (filters.tags.size > 0) params.set("tags", [...filters.tags].join(","));
   if (filters.kind.size > 0) params.set("kind", [...filters.kind].join(","));
   if (filters.people.size > 0) params.set("people", [...filters.people].join(","));
+  if (filters.mode === "shorts") params.set("mode", "shorts");
   const query = params.toString().replaceAll("%2C", ",");
   history.pushState(null, "", query ? `?${query}` : location.pathname);
   render();
@@ -243,7 +250,7 @@ function activeFilterCount(filters: Filters): number {
 
 // Clears what narrows the list; the current list (feed, favourites, archive) and No AI stay as they are.
 function clearFilters(filters: Filters): void {
-  writeFilters({ view: filters.view, show: "", tags: new Set(), kind: new Set(), people: new Set() });
+  writeFilters({ view: filters.view, show: "", tags: new Set(), kind: new Set(), people: new Set(), mode: "feed" });
 }
 
 function matchesChips(item: FeedItem, filters: Filters): boolean {
@@ -260,6 +267,11 @@ function render(): void {
 
   const chipMatches = viewItems(filters);
   renderControls(filters, chipMatches);
+
+  if (filters.mode === "shorts" && filters.show === "watch" && filters.view === "feed") {
+    renderShortsMode(chipMatches.filter((item) => FORMAT_OF[item.kind] === "watch" && item.tags.includes(SHORTS_TAG)));
+    return;
+  }
 
   const visible = chipMatches.filter((item) => !filters.show || FORMAT_OF[item.kind] === filters.show);
   if (view === "feed") {
@@ -280,8 +292,8 @@ function render(): void {
         title: shelfEmpty ? `Your ${SHELF_COPY[view].title.toLowerCase()} is empty` : "Nothing here yet",
         body: shelfEmpty ? SHELF_COPY[view].empty : "No posts match these filters.",
         action: shelfEmpty
-          ? ["Back to the feed", () => writeFilters({ ...filters, view: "feed" })]
-          : ["Show everything", () => writeFilters({ view, show: "", tags: new Set(), kind: new Set(), people: new Set() })],
+          ? ["Back to the feed", () => writeFilters({ ...filters, view: "feed", mode: "feed" })]
+          : ["Show everything", () => writeFilters({ view, show: "", tags: new Set(), kind: new Set(), people: new Set(), mode: "feed" })],
       }),
     );
     return;
@@ -335,14 +347,121 @@ function appendPage(): void {
   if (rendered >= rows.length && readFilters().view === "feed") list.append(renderEnd());
 }
 
+// ---------- Shorts mode: TikTok-style vertical infinite scroll ----------
+
+function shortsEmbed(item: FeedItem, muted: boolean): string {
+  const state = muted ? 1 : 0;
+  return `https://www.youtube-nocookie.com/embed/${item.videoId}?autoplay=1&mute=${state}&loop=1&playlist=${item.videoId}&controls=0&modestbranding=1&rel=0&playsinline=1`;
+}
+
+function mountShortVideo(card: HTMLElement, item: FeedItem): void {
+  const media = card.querySelector<HTMLElement>(".short-media");
+  if (!media || media.querySelector("iframe")) return;
+  const frame = h("iframe", {
+    src: shortsEmbed(item, shortsMuted),
+    allow: "autoplay; encrypted-media",
+    allowFullscreen: true,
+    title: item.title,
+  });
+  media.replaceChildren(frame);
+}
+
+function renderShortCard(item: FeedItem): HTMLElement {
+  const card = h("article", { className: "short" });
+  const media = h("div", { className: "short-media" });
+  const thumb = item.image ? h("img", { src: item.image, alt: "", loading: "lazy", decoding: "async" }) : undefined;
+  if (thumb) media.append(thumb);
+
+  const muteBtn = h("button", { type: "button", className: "short-mute", title: "Toggle sound" }, [shortsMuted ? "🔇" : "🔊"]);
+  muteBtn.addEventListener("click", () => {
+    shortsMuted = !shortsMuted;
+    muteBtn.textContent = shortsMuted ? "🔇" : "🔊";
+    card.querySelectorAll("iframe").forEach((f) => f.remove());
+    mountShortVideo(card, item);
+  });
+
+  const meta = h("div", { className: "short-meta" }, [
+    h("span", { className: "short-author" }, [item.author]),
+    h("p", { className: "short-title" }, [item.title]),
+  ]);
+
+  card.append(media, muteBtn, meta);
+
+  // เล่นอัตโนมัติเมื่อการ์ดอยู่กลางจอ; เลื่อนถึงท้ายสุด = โหลดหน้าต่อไป (infinite)
+  if (!shortsObserver) {
+    shortsObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const el = entry.target as HTMLElement;
+          const item = shortsRows.find((i) => i.id === el.dataset.id);
+          if (!item) continue;
+          if (entry.intersectionRatio >= 0.6) mountShortVideo(el, item);
+          else if (entry.intersectionRatio === 0) el.querySelector("iframe")?.remove();
+          if (entry.isIntersecting && shortsRendered < shortsRows.length && el === el.parentElement?.lastElementChild) {
+            appendShortsPage();
+          }
+        }
+      },
+      { root: list.querySelector(".shorts-feed"), threshold: [0, 0.6] },
+    );
+  }
+  shortsObserver.observe(card);
+  return card;
+}
+
+function appendShortsPage(): void {
+  const scroller = list.querySelector<HTMLElement>(".shorts-feed");
+  if (!scroller) return;
+  const page = shortsRows.slice(shortsRendered, shortsRendered + 5);
+  for (const item of page) {
+    const card = renderShortCard(item);
+    card.dataset.id = item.id;
+    scroller.append(card);
+  }
+  shortsRendered += page.length;
+  if (shortsRendered >= shortsRows.length && shortsRendered > 0) {
+    const end = h("div", { className: "short end" }, [
+      h("p", { className: "short-title" }, ["You're all caught up 🌱"]),
+    ]);
+    const back = h("button", { type: "button", className: "shorts-exit inline" }, ["Back to the feed"]);
+    back.addEventListener("click", () => { const f = readFilters(); writeFilters({ ...f, mode: "feed", tags: new Set() }); });
+    end.append(back);
+    scroller.append(end);
+  }
+}
+
+function renderShortsMode(items: FeedItem[]): void {
+  if (shortsObserver) shortsObserver.disconnect();
+  shortsObserver = null;
+  shortsRows = items;
+  shortsRendered = 0;
+  list.replaceChildren();
+  if (!items.length) {
+    list.append(
+      moment({
+        mood: "sleepy",
+        title: "No shorts here yet",
+        body: "Creators tagged Shorts will show up in this vertical feed.",
+        action: ["Back to the feed", () => { const f = readFilters(); writeFilters({ ...f, mode: "feed", tags: new Set() }); }],
+      }),
+    );
+    return;
+  }
+  const scroller = h("div", { className: "shorts-feed" });
+  const exit = h("button", { type: "button", className: "shorts-exit", title: "Back to the feed (Esc)" }, ["✕"]);
+  exit.addEventListener("click", () => { const f = readFilters(); writeFilters({ ...f, mode: "feed", tags: new Set() }); });
+  scroller.append(exit);
+  list.replaceChildren(scroller);
+  appendShortsPage();
+}
+
 function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
   controls.hidden = false;
   const formats = [...new Set(feed.items.map((item) => FORMAT_OF[item.kind]))];
   const count = (format: Format | "") =>
     chipMatches.filter((item) => !format || FORMAT_OF[item.kind] === format).length;
 
-  tabs.replaceChildren(
-    ...(["", ...formats] as const).map((format) => {
+  const formatTabs = (["", ...formats] as (Format | "")[]).map((format) => {
       const { label, icon: id } = format ? FORMATS[format] : { label: "All", icon: "i-all" };
       const n = count(format);
       const tab = h("button", { type: "button", className: "tab", title: `${label} (${n})`, ariaLabel: `${label}, ${n} post${n === 1 ? "" : "s"}` }, [
@@ -350,12 +469,24 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
         h("span", { className: "tab-label" }, [label]),
         h("span", { className: "count" }, [String(n)]),
       ]);
-      tab.setAttribute("aria-pressed", String(filters.show === format));
+      tab.setAttribute("aria-pressed", String(filters.show === format && filters.mode !== "shorts"));
       tab.disabled = filters.show !== format && n === 0;
-      tab.addEventListener("click", () => writeFilters({ ...filters, show: format }));
+      tab.addEventListener("click", () => writeFilters({ ...filters, show: format, mode: "feed" }));
       return tab;
-    }),
-  );
+  });
+  const shortsCount = chipMatches.filter((item) => FORMAT_OF[item.kind] === "watch" && item.tags.includes(SHORTS_TAG)).length;
+  const shortsActive = filters.mode === "shorts" && filters.show === "watch";
+  const shortsTab = h("button", { type: "button", className: "tab shorts-tab", title: `Shorts (${shortsCount})`, ariaLabel: `Shorts, ${shortsCount} clip${shortsCount === 1 ? "" : "s"}` }, [
+    icon("i-play"),
+    h("span", { className: "tab-label" }, ["Shorts"]),
+    h("span", { className: "count" }, [String(shortsCount)]),
+  ]);
+  shortsTab.setAttribute("aria-pressed", String(shortsActive));
+  shortsTab.disabled = !shortsActive && shortsCount === 0;
+  shortsTab.addEventListener("click", () =>
+    writeFilters({ ...filters, show: "watch", tags: new Set([SHORTS_TAG]), mode: shortsActive ? "feed" : "shorts" }));
+
+  tabs.replaceChildren(...formatTabs, shortsTab);
 
   const chip = (group: ChipGroup, value: string, lead: Node, label: string, hue?: Hue) => {
     const active = filters[group].has(value);
