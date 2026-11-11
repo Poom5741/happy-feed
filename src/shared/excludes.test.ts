@@ -15,6 +15,11 @@ test("the AI preset leaves words that merely contain the letters alone", () => {
   expect(isExcluded({ title: "Thai street food", summary: "She said it was fair and plain" }, ai)).toBe(false);
 });
 
+test("posts that say No AI stay visible even when they mention AI elsewhere", () => {
+  expect(isExcluded({ title: "No AI. Build 'cat' command in C - but better for AI" }, ai)).toBe(false);
+  expect(isExcluded({ title: "Making art with no ai at all" }, ai)).toBe(false);
+});
+
 test("nothing is hidden when no preset is active", () => {
   expect(isExcluded({ title: "AI everywhere" }, new Set())).toBe(false);
 });

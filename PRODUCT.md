@@ -22,13 +22,13 @@ There is no ranking for engagement. Only hand-picked sources are shown, plus a m
 
 - Posts are fetched into a static `feed.json` at deploy time (`bun run deploy`, or the GitHub Action every 3 hours once it has a Cloudflare token). The site is an assets-only Cloudflare Worker at https://feed.poom.dev.
 - Collections are edited by hand as JSON. Each entry has a name, tags, and provider URLs (`youtube`, `rss`, `substack`, `website`, `twitter`, `facebook`).
-- Filters by tag and source live in the URL, so they can be bookmarked.
-- Topic excludes are presets toggled in the app (today: "No AI", which hides posts whose title or summary mentions AI, Artificial Intelligence or Superintelligence). The choice persists on the device, unlike the URL filters. The build-time `mute` list in a collection still removes posts for everyone.
+- Filters by tag, source, and person live in the URL, so they can be bookmarked.
+- Topic excludes are presets toggled in the app (today: "No AI", which hides posts whose title or summary mentions AI, Artificial Intelligence or Superintelligence, except posts that say "No AI", which stay visible). The choice persists on the device, unlike the URL filters. The build-time `mute` list in a collection still removes posts for everyone.
 
 ## Capabilities and Constraints
 
 - YouTube, RSS and website (feed autodiscovery) work without credentials.
-- X and Facebook need a self-hosted RSS bridge (`RSS_BRIDGE`, `RSS_BRIDGE_FACEBOOK`). No free route exists. That was measured 2026-11-11: nitter 410, xcancel 451, X syndication 429.
+- X and Facebook need a self-hosted RSS bridge (`RSS_BRIDGE`, `RSS_BRIDGE_FACEBOOK`). No free route exists. That was measured 2026-11-11: nitter 410, xcancel 451, X syndication 429, and 10 public Nitter instances returned no tweets (nitter.net now shows X's cease-and-desist notice). People who also post on Bluesky or Mastodon are followed there instead, through their free public RSS.
 - YouTube channel feeds only expose the latest 15 videos. Items older than 365 days are dropped.
 - Stack: Bun, TypeScript, Vite, vanilla TS client, static hosting on a Cloudflare Worker (deployed with the `cf` CLI).
 - Undecided: where stopping cues go beyond the "caught up" divider. For example, whether older posts should feel different or need a deliberate tap to continue.

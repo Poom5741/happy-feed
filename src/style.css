@@ -377,6 +377,21 @@ button {
   color: var(--ground);
 }
 
+.people {
+  margin-top: 8px;
+}
+
+.people .chip {
+  padding-left: 5px;
+}
+
+.people .monogram {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+}
+
 .chip-rule {
   flex: none;
   width: 1.5px;
@@ -575,7 +590,8 @@ button {
 /* Read cards: a tinted tile that works with no image at all. */
 
 .read {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   padding: 18px 18px 16px;
   border-radius: 24px;
@@ -678,6 +694,11 @@ button {
   background: var(--surface);
 }
 
+.read .foot,
+.post .foot {
+  margin-top: auto;
+}
+
 .read .foot {
   display: flex;
   align-items: center;
@@ -704,6 +725,68 @@ button {
 
 .read:hover .go {
   transform: rotate(45deg);
+}
+
+/* Post cards: a speech bubble that leads with the words. */
+
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 18px 16px;
+  border-radius: 24px 24px 24px 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.post:hover {
+  transform: translateY(-2px);
+}
+
+.post-text {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 320px;
+  border-radius: 16px;
+  object-fit: cover;
+  background: var(--wash);
+}
+
+.post .go {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--wash);
+  color: var(--ink);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.post .go .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.post:hover .go {
+  transform: rotate(45deg);
+}
+
+.post .foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 /* Caught up and the end */
@@ -821,6 +904,18 @@ button {
 
 .sentinel {
   height: 1px;
+}
+
+@media (max-width: 479px) {
+  .tab {
+    gap: 4px;
+    padding: 0 6px;
+    font-size: 0.875rem;
+  }
+
+  .tab .icon {
+    display: none;
+  }
 }
 
 @media (min-width: 720px) {

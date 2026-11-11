@@ -3,7 +3,8 @@ import { assignHues, hueOf, type Hue } from "./shared/hues";
 import { orderFeed } from "./shared/order";
 import { FORMAT_OF, type Feed, type FeedItem, type Format, type SourceKind } from "./shared/types";
 
-type Filters = { show: Format | ""; tags: Set<string>; kind: Set<string> };
+type Filters = { show: Format | ""; tags: Set<string>; kind: Set<string>; people: Set<string> };
+type ChipGroup = "tags" | "kind" | "people";
 type Row = { type: "card"; item: FeedItem } | { type: "caught-up" };
 
 const PAGE_SIZE = 20;
@@ -17,6 +18,8 @@ const KINDS: Record<SourceKind, { label: string; icon: string }> = {
   rss: { label: "Blogs", icon: "i-book" },
   substack: { label: "Substack", icon: "i-mail" },
   website: { label: "Web", icon: "i-globe" },
+  bluesky: { label: "Bluesky", icon: "i-chat" },
+  mastodon: { label: "Mastodon", icon: "i-chat" },
   twitter: { label: "X", icon: "i-chat" },
   facebook: { label: "Facebook", icon: "i-chat" },
 };
@@ -27,6 +30,7 @@ const sentinel = document.querySelector<HTMLElement>(".sentinel")!;
 const controls = document.querySelector<HTMLElement>(".controls")!;
 const tabs = controls.querySelector<HTMLElement>(".tabs")!;
 const chips = controls.querySelector<HTMLElement>(".chips")!;
+const people = controls.querySelector<HTMLElement>(".people")!;
 const toggle = document.querySelector<HTMLButtonElement>(".theme-toggle")!;
 const systemDark = matchMedia("(prefers-color-scheme: dark)");
 
@@ -129,7 +133,7 @@ function readFilters(): Filters {
   const params = new URLSearchParams(location.search);
   const set = (key: string) => new Set((params.get(key) ?? "").split(",").filter(Boolean));
   const show = params.get("show");
-  return { show: show && show in FORMATS ? (show as Format) : "", tags: set("tags"), kind: set("kind") };
+  return { show: show && show in FORMATS ? (show as Format) : "", tags: set("tags"), kind: set("kind"), people: set("people") };
 }
 
 function writeFilters(filters: Filters): void {
@@ -137,6 +141,7 @@ function writeFilters(filters: Filters): void {
   if (filters.show) params.set("show", filters.show);
   if (filters.tags.size > 0) params.set("tags", [...filters.tags].join(","));
   if (filters.kind.size > 0) params.set("kind", [...filters.kind].join(","));
+  if (filters.people.size > 0) params.set("people", [...filters.people].join(","));
   const query = params.toString().replaceAll("%2C", ",");
   history.pushState(null, "", query ? `?${query}` : location.pathname);
   render();
@@ -146,7 +151,8 @@ function writeFilters(filters: Filters): void {
 function matchesChips(item: FeedItem, filters: Filters): boolean {
   const tagOk = filters.tags.size === 0 || item.tags.some((tag) => filters.tags.has(tag));
   const kindOk = filters.kind.size === 0 || filters.kind.has(item.kind);
-  return tagOk && kindOk;
+  const personOk = filters.people.size === 0 || filters.people.has(item.author);
+  return tagOk && kindOk && personOk;
 }
 
 function render(): void {
@@ -169,7 +175,7 @@ function render(): void {
         mood: "sleepy",
         title: "Nothing here yet",
         body: "No posts match these filters.",
-        action: ["Show everything", () => writeFilters({ show: "", tags: new Set(), kind: new Set() })],
+        action: ["Show everything", () => writeFilters({ show: "", tags: new Set(), kind: new Set(), people: new Set() })],
       }),
     );
     return;
@@ -205,7 +211,7 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
     }),
   );
 
-  const chip = (group: "tags" | "kind", value: string, lead: Node, label: string, hue?: Hue) => {
+  const chip = (group: ChipGroup, value: string, lead: Node, label: string, hue?: Hue) => {
     const active = filters[group].has(value);
     const el = h("button", { type: "button", className: "chip" }, [lead, label]);
     if (hue) el.dataset.hue = hue;
@@ -239,6 +245,16 @@ function renderControls(filters: Filters, chipMatches: FeedItem[]): void {
         ]
       : []),
   );
+
+  const authors = new Map<string, Hue>();
+  for (const item of feed.items) if (!authors.has(item.author)) authors.set(item.author, hueFor(item));
+  people.replaceChildren(
+    ...[...authors]
+      .sort(([a], [b]) => a.localeCompare(b, undefined, { sensitivity: "base" }))
+      .map(([author, hue]) =>
+        chip("people", author, h("span", { className: "monogram", ariaHidden: "true" }, [initial(author)]), author, hue),
+      ),
+  );
 }
 
 function byline(item: FeedItem, lead: Node[] = []): HTMLElement {
@@ -256,7 +272,9 @@ function tagList(item: FeedItem): HTMLElement[] {
 }
 
 function renderCard(item: FeedItem): HTMLElement {
-  const card = FORMAT_OF[item.kind] === "watch" && item.image ? renderWatch(item) : renderRead(item);
+  const format = FORMAT_OF[item.kind];
+  const card =
+    format === "watch" && item.image ? renderWatch(item) : format === "post" ? renderPost(item) : renderRead(item);
   card.dataset.hue = hueFor(item);
   return card;
 }
@@ -299,10 +317,32 @@ function renderRead(item: FeedItem): HTMLElement {
   return h("article", { className: `card read${mini ? "" : " jewel"}` }, [
     byline(item, [h("span", { className: "monogram", ariaHidden: "true" }, [initial(item.author)])]),
     h("div", { className: "text" }, [
-      h("h2", { className: "title" }, [h("a", { href: item.url, target: "_blank", rel: "noopener", className: "stretch" }, [item.title])]),
+      h("h2", { className: "title" }, [
+        h("a", { href: item.url, target: "_blank", rel: "noopener", className: "stretch" }, [item.title || "Untitled"]),
+      ]),
       ...(mini ? [mini] : []),
       ...(item.summary ? [h("p", { className: "summary" }, [item.summary])] : []),
     ]),
+    h("footer", { className: "foot" }, [
+      h("div", {}, tagList(item)),
+      h("span", { className: "go", ariaHidden: "true" }, [icon("i-arrow")]),
+    ]),
+  ]);
+}
+
+function renderPost(item: FeedItem): HTMLElement {
+  const text = item.summary || item.title;
+  const picture = item.image
+    ? h("img", { className: "post-image", src: item.image, alt: "", loading: "lazy", decoding: "async", referrerPolicy: "no-referrer" })
+    : undefined;
+  picture?.addEventListener("error", () => picture.remove(), { once: true });
+
+  return h("article", { className: "card post" }, [
+    byline(item, [h("span", { className: "monogram", ariaHidden: "true" }, [initial(item.author)])]),
+    h("p", { className: "post-text" }, [
+      h("a", { href: item.url, target: "_blank", rel: "noopener", className: "stretch", ariaLabel: `${item.author}: ${text}` }, [text]),
+    ]),
+    ...(picture ? [picture] : []),
     h("footer", { className: "foot" }, [
       h("div", {}, tagList(item)),
       h("span", { className: "go", ariaHidden: "true" }, [icon("i-arrow")]),
