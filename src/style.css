@@ -1486,7 +1486,8 @@ html:has(.viewer[open]) {
     order: 3;
     flex-basis: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
     margin-top: 14px;
   }
 
